@@ -1,5 +1,6 @@
 import React from "react";
 import { Form, Button, Card, Container } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const Login = ({ emailRef, passwordRef }) => {
   return (
@@ -27,7 +28,12 @@ const Login = ({ emailRef, passwordRef }) => {
               </Form>
             </Card.Body>
           </Card>
-          <div className="w100 text-center mt-2">Click here to sign up</div>
+          <div className="w100 text-center mt-2">
+            <Link>Click here to sign up</Link>
+          </div>
+          <div className="w100 text-center mt-2">
+            <Link>Forget password</Link>
+          </div>
         </div>
       </Container>
     </>

@@ -5,9 +5,9 @@ import { Route, Routes } from "react-router-dom";
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Signup />} />
+      <Route path="/signup" element={<Signup />} />
       <Route path="/home" element={<Home />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Login />} />
     </Routes>
   );
 }

@@ -9,7 +9,8 @@ import {
 } from "@mui/material";
 import Logo from "../assets/logo.png";
 import { styled } from "@mui/system";
-import { Maximize } from "@mui/icons-material";
+import React, { useState } from "react";
+import axios from "axios";
 
 const GridStyled = styled(Grid)(({ theme }) => ({
   width: "400px",
@@ -22,6 +23,22 @@ const GridStyled = styled(Grid)(({ theme }) => ({
 }));
 
 const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const submitHandler = (e) => {
+    e.preventDefault();
+
+    // POST METHOD pass username and password //
+    axios
+      .post(`http://localhost:3000/api/auth`, { username, password })
+      .then((response) => {
+        console.log(response.data.id);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
   return (
     <Grid
       container
@@ -43,13 +60,9 @@ const Login = () => {
           />
           <Divider sx={{ padding: "3px" }} />
         </Grid>
-        <Grid
-          container
-          // direction={matchDownSM ? "column-reverse" : "row"}
-          justifyContent="center"
-        >
+        <Grid container justifyContent="center">
           <Grid item xs={12} sx={{ padding: "5px", height: "1" }}>
-            <form>
+            <form onSubmit={submitHandler}>
               <Stack alignItems="center" justifyContent="center" spacing={1}>
                 <Typography
                   color="grey"
@@ -61,13 +74,15 @@ const Login = () => {
                 </Typography>
 
                 <TextField
-                  id="email"
-                  name="email"
-                  label="Email"
-                  value=""
+                  id="username"
+                  name="username"
+                  label="Username"
+                  variant="outlined"
                   sx={{
                     width: "90%",
                   }}
+                  onChange={(e) => setUsername(e.target.value)}
+                  value={username}
                 />
                 <TextField
                   sx={{
@@ -77,7 +92,9 @@ const Login = () => {
                   name="password"
                   label="Password"
                   type="password"
-                  value=""
+                  variant="outlined"
+                  onChange={(e) => setPassword(e.target.value)}
+                  value={password}
                 />
                 <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
 
@@ -91,12 +108,7 @@ const Login = () => {
                 >
                   Login
                 </Button>
-                <Typography
-                  // component={Link}
-                  // to="/pages/register/register3"
-                  variant="subtitle2"
-                  padding="25px"
-                >
+                <Typography variant="subtitle2" padding="25px">
                   Don't have an account?
                 </Typography>
               </Stack>

@@ -11,6 +11,7 @@ import Logo from "../assets/logo.png";
 import { styled } from "@mui/system";
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const GridStyled = styled(Grid)(({ theme }) => ({
   width: "400px",
@@ -25,6 +26,9 @@ const GridStyled = styled(Grid)(({ theme }) => ({
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
+  const navigate = useNavigate();
+
   const submitHandler = (e) => {
     e.preventDefault();
 
@@ -32,10 +36,14 @@ const Login = () => {
     axios
       .post(`http://localhost:3000/api/auth`, { username, password })
       .then((response) => {
-        console.log(response.data.id);
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("id", response.data.id);
+        navigate("/");
       })
       .catch((error) => {
-        console.log(error.message);
+        setError(true);
+        setUsername("");
+        setPassword("");
       });
   };
 
@@ -64,6 +72,21 @@ const Login = () => {
           <Grid item xs={12} sx={{ padding: "5px", height: "1" }}>
             <form onSubmit={submitHandler}>
               <Stack alignItems="center" justifyContent="center" spacing={1}>
+                {error && (
+                  <Typography
+                    fontSize="17px"
+                    display="flex"
+                    justifyContent="center"
+                    variant="outlined"
+                    sx={{
+                      backgroundColor: "red",
+                      color: "white",
+                      width: "90%",
+                    }}
+                  >
+                    Wrong user and password combination!
+                  </Typography>
+                )}
                 <Typography
                   color="grey"
                   variant="caption"
@@ -88,6 +111,7 @@ const Login = () => {
                   sx={{
                     width: "90%",
                   }}
+                  minLength="6"
                   id="password"
                   name="password"
                   label="Password"
@@ -105,6 +129,7 @@ const Login = () => {
                     width: "90%",
                   }}
                   type="submit"
+                  disabled={!username || password.length < 6}
                 >
                   Login
                 </Button>

@@ -1,3 +1,8 @@
+import Logo from "../assets/logo.png";
+import React, { useState } from "react";
+import axios from "axios";
+import { styled } from "@mui/system";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -7,9 +12,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import Logo from "../assets/logo.png";
-import { styled } from "@mui/system";
-import { Maximize } from "@mui/icons-material";
 
 const GridStyled = styled(Grid)(({ theme }) => ({
   width: "400px",
@@ -22,6 +24,28 @@ const GridStyled = styled(Grid)(({ theme }) => ({
 }));
 
 const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
+  const navigate = useNavigate();
+  const baseurl = `http://localhost:3000/api/auth`
+  const submitHandler = (e) => {
+    e.preventDefault();
+
+    axios
+      .post(baseurl, { username, password })
+      .then((response) => {
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("id", response.data.id);
+        navigate("/");
+      })
+      .catch((error) => {
+        setError(true);
+        setUsername("");
+        setPassword("");
+      });
+  };
+
   return (
     <Grid
       container
@@ -43,14 +67,25 @@ const Login = () => {
           />
           <Divider sx={{ padding: "3px" }} />
         </Grid>
-        <Grid
-          container
-          // direction={matchDownSM ? "column-reverse" : "row"}
-          justifyContent="center"
-        >
+        <Grid container justifyContent="center">
           <Grid item xs={12} sx={{ padding: "5px", height: "1" }}>
-            <form>
+            <form onSubmit={submitHandler}>
               <Stack alignItems="center" justifyContent="center" spacing={1}>
+                {error && (
+                  <Typography
+                    fontSize="17px"
+                    display="flex"
+                    justifyContent="center"
+                    variant="outlined"
+                    sx={{
+                      backgroundColor: "red",
+                      color: "white",
+                      width: "90%",
+                    }}
+                  >
+                    Wrong user and password combination!
+                  </Typography>
+                )}
                 <Typography
                   color="grey"
                   variant="caption"
@@ -61,23 +96,28 @@ const Login = () => {
                 </Typography>
 
                 <TextField
-                  id="email"
-                  name="email"
-                  label="Email"
-                  value=""
+                  id="username"
+                  name="username"
+                  label="Username"
+                  variant="outlined"
                   sx={{
                     width: "90%",
                   }}
+                  onChange={(e) => setUsername(e.target.value)}
+                  value={username}
                 />
                 <TextField
                   sx={{
                     width: "90%",
                   }}
+                  minLength="6"
                   id="password"
                   name="password"
                   label="Password"
                   type="password"
-                  value=""
+                  variant="outlined"
+                  onChange={(e) => setPassword(e.target.value)}
+                  value={password}
                 />
                 <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
 
@@ -88,15 +128,11 @@ const Login = () => {
                     width: "90%",
                   }}
                   type="submit"
+                  disabled={!username || password.length < 6}
                 >
                   Login
                 </Button>
-                <Typography
-                  // component={Link}
-                  // to="/pages/register/register3"
-                  variant="subtitle2"
-                  padding="25px"
-                >
+                <Typography variant="subtitle2" padding="25px">
                   Don't have an account?
                 </Typography>
               </Stack>

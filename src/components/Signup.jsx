@@ -49,7 +49,6 @@ const Signup = () => {
         securityQuestionAnswer,
       })
       .then((response) => {
-        console.log(response);
         setSuccess(true);
         setTimeout(() => {
           navigate("/login");
@@ -63,15 +62,12 @@ const Signup = () => {
 
   const onChangeUsername = (e) => {
     e.preventDefault();
-
     setUsername(e.target.value);
-    console.log(e.target.value);
     axios
       .get(`http://localhost:3000/api/users?username=${e.target.value}`)
       .then((response) => {
         if (response.data.length) {
           setAvailability(false);
-          console.log(response.data);
         } else {
           setAvailability(true);
         }
@@ -117,7 +113,7 @@ const Signup = () => {
                       justifyContent: "center",
                       backgroundColor: "white",
                       font: "bold",
-                      padding:"4px"
+                      padding: "4px",
                     }}
                   >
                     <AlertTitle>Username taken</AlertTitle>

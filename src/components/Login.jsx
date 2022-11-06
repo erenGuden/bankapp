@@ -24,8 +24,6 @@ const GridStyled = styled(Grid)(({ theme }) => ({
   },
 }));
 
-// /api/users?username=
-
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

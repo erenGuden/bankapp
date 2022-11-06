@@ -8,6 +8,7 @@ import {
   Button,
   Divider,
   Grid,
+  Link,
   Stack,
   TextField,
   Typography,
@@ -23,12 +24,15 @@ const GridStyled = styled(Grid)(({ theme }) => ({
   },
 }));
 
+// /api/users?username=
+
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const navigate = useNavigate();
-  const baseurl = `http://localhost:3000/api/auth`
+  const baseurl = `http://localhost:3000/api/auth`;
+
   const submitHandler = (e) => {
     e.preventDefault();
 
@@ -132,9 +136,14 @@ const Login = () => {
                 >
                   Login
                 </Button>
-                <Typography variant="subtitle2" padding="25px">
+                <Link
+                  href="/signup"
+                  color="inherit"
+                  variant="subtitle2"
+                  padding="25px"
+                >
                   Don't have an account?
-                </Typography>
+                </Link>
               </Stack>
             </form>
           </Grid>

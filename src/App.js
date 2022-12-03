@@ -4,7 +4,7 @@ import NotProtectedRoute from "./routes/NotProtectedRoute";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Signup from "./components/Signup";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-
+import Navbar from "./components/Navbar";
 function App() {
   return (
     <BrowserRouter>

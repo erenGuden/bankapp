@@ -13,11 +13,29 @@ const Home = () => {
   const id = localStorage.getItem("id");
   const baseurl = `http://localhost:3000/api/accounts?userId=${id}`;
   const [accounts, setAccounts] = useState([]);
+  const [userDetails, setUserDetails] = useState([]);
+
+  // Get user details with userID
+  const userDetailsUrl = `http://localhost:3000/api/users/${id}`;
+
   useEffect(() => {
     axios.get(baseurl).then((response) => {
       setAccounts(response.data);
     });
   }, []);
+
+  useEffect(() => {
+    axios.get(userDetailsUrl).then((users) => {
+      const { data } = users;
+      data.username = capitalizeFirstLetter(users.data.username);
+      setUserDetails(data);
+    });
+  }, []);
+
+  // Capitalize the first letter of username
+  const capitalizeFirstLetter = (word) => {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  };
 
   return (
     <Grid>
@@ -29,23 +47,25 @@ const Home = () => {
         justifyContent="center"
         sx={{ alignItems: "center" }}
       >
-        <Typography
-          color="black"
-          variant="caption"
-          fontSize="26px"
-          fontWeight="bold"
-        >
-          Welcome, Username
-        </Typography>
+        {userDetails.username && (
+          <Typography
+            color="black"
+            variant="caption"
+            fontSize="26px"
+            fontWeight="bold"
+          >
+            Welcome, {userDetails.username}
+          </Typography>
+        )}
         {accounts.map((account) => (
-          <AccountCard account={account} key={account._id}/>
+          <AccountCard account={account} key={account._id} />
         ))}
         <Button
           color="primary"
           variant="contained"
           sx={{
             backgroundColor: "lightblue",
-            width: "40%",
+            width: "45vh",
           }}
           type="submit"
         >

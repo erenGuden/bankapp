@@ -118,7 +118,7 @@ const Signup = () => {
                       width: "90%",
                     }}
                   >
-                    Username taken 
+                    Username taken
                   </Typography>
                 )}
                 {error && (

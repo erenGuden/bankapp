@@ -45,6 +45,9 @@ const Login = () => {
         setError(true);
         setUsername("");
         setPassword("");
+        setTimeout(() => {
+          setError(false);
+        }, 4000);
       });
   };
 

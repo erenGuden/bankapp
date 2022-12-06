@@ -107,17 +107,19 @@ const Signup = () => {
                   </Alert>
                 )}
                 {!availability && (
-                  <Alert
-                    severity="error"
+                  <Typography
+                    fontSize="17px"
+                    display="flex"
+                    justifyContent="center"
+                    variant="outlined"
                     sx={{
-                      justifyContent: "center",
-                      backgroundColor: "white",
-                      font: "bold",
-                      padding: "4px",
+                      backgroundColor: "red",
+                      color: "white",
+                      width: "90%",
                     }}
                   >
-                    <AlertTitle>Username taken</AlertTitle>
-                  </Alert>
+                    Username taken
+                  </Typography>
                 )}
                 {error && (
                   <Alert severity="error" sx={{ padding: "3px" }}>

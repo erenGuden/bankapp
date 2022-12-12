@@ -29,7 +29,7 @@ const AccountCard = ({ account }) => {
       <Card>
         <CardContent>
           <Typography
-            sx={{ fontSize: 13, mb: 2, fontFamily: "bold", color: "black" }}
+            sx={{ fontSize: 17, mb: 2, fontFamily: "bold", color: "black" }}
             color="text.primary"
             gutterBottom
           >

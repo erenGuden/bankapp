@@ -1,5 +1,4 @@
 import Navbar from "./Navbar";
-import Paper from "@mui/material/Paper";
 import React from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -48,7 +47,7 @@ const AccountDetails = () => {
         t.amount *= -1;
         t.description = `Transfer_to AccountID: ${t.receiverId}`;
       }
-      if (t.initiatorId != accountId) {
+      if (t.initiatorId !== accountId) {
         t.description = `Transfer_from AccountID: ${t.initiatorId}`;
       }
       t.date = t.date.split("T")[0] + ", " + t.date.slice(11, 16);

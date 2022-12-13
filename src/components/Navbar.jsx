@@ -1,15 +1,15 @@
-import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
 import Logo from "../assets/logo.png";
+import LogoutIcon from "@mui/icons-material/Logout";
+import React from "react";
+import Toolbar from "@mui/material/Toolbar";
 import { styled } from "@mui/system";
 import { useNavigate } from "react-router-dom";
-import LogoutIcon from "@mui/icons-material/Logout";
-const pages = ["Home", "Transaction", "Profile"];
 
+const pages = ["Home", "Transaction", "Profile"];
 const LogoStyled = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     display: "none",

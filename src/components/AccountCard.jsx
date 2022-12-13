@@ -7,7 +7,6 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { fontFamily } from "styled-system";
 
 const CardStyled = styled(Card)(({ theme }) => ({
   backgroundColor: "white",
@@ -17,24 +16,33 @@ const CardStyled = styled(Card)(({ theme }) => ({
   },
 }));
 
+// Format amount as in currency
+function currencyFormat(num) {
+  if (num) {
+    return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + "$";
+  }
+}
+
 const AccountCard = ({ account }) => {
   return (
     <CardStyled>
       <Card>
         <CardContent>
           <Typography
-            sx={{ fontSize: 13, mb: 2, fontFamily: "bold", color: "black" }}
+            sx={{ fontSize: 17, mb: 2, fontFamily: "bold", color: "black" }}
             color="text.primary"
             gutterBottom
           >
             Account name: {account.name}
           </Typography>
           <Typography variant="h5" component="div">
-            ${account.balance}
-          </Typography> 
+            {currencyFormat(account.balance)}
+          </Typography>
         </CardContent>
         <CardActions justify="center" sx={{ alignItems: "center" }}>
-          <Button size="small">Account details</Button>
+          <Button href={`account-details?id=${account._id}`} size="small">
+            Account details
+          </Button>
         </CardActions>
       </Card>
     </CardStyled>

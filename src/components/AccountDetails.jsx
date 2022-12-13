@@ -146,9 +146,3 @@ const AccountDetails = () => {
 };
 
 export default AccountDetails;
-
-<TableBody>
-  <Typography align="center" paddingTop="15px">
-    No transaction found
-  </Typography>
-</TableBody>;

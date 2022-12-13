@@ -71,10 +71,10 @@ const AccountDetails = () => {
 
   return (
     <>
-      {transactions.length > 0 && (
-        <Grid>
-          <Navbar />
-          <TableContainer sx={{ marginTop: "7vh" }} align="center">
+      <Grid>
+        <Navbar />
+        <TableContainer sx={{ marginTop: "7vh" }} align="center">
+          {accountType && (
             <div sx={{ fontSize: "50px", fontWeight: "bold" }}>
               <Typography sx={{ fontSize: "65px", fontWeight: "bold" }}>
                 {currencyFormat(accountBalance)}
@@ -86,7 +86,13 @@ const AccountDetails = () => {
                 <strong>AccountID:</strong> {accountId}
               </Typography>
             </div>
-            <Divider />
+          )}
+          <Divider />
+          {transactions.length === 0 ? (
+            <Typography marginTop="10px" fontSize="18px">
+              No transaction found...
+            </Typography>
+          ) : (
             <Table sx={{ width: "45vw" }} aria-label="simple table">
               <TableHead>
                 <TableRow>
@@ -117,77 +123,32 @@ const AccountDetails = () => {
                 ))}
               </TableBody>
             </Table>
-            <Button
-              href="/"
-              color="black"
-              variant="elevated"
-              sx={{
-                margin: "5vh",
-                color: "grey",
-                backgroundColor: "white",
-                width: "20vh",
-                border: "solid 1px grey",
-              }}
-              type="submit"
-            >
-              Return home
-            </Button>
-          </TableContainer>
-        </Grid>
-      )}
-      {transactions.length === 0 && (
-        <Grid>
-          <Navbar />
-          <TableContainer sx={{ marginTop: "7vh" }} align="center">
-            <div sx={{ fontSize: "50px", fontWeight: "bold" }}>
-              <Typography sx={{ fontSize: "65px", fontWeight: "bold" }}>
-                {currencyFormat(accountBalance)}
-              </Typography>
-              <Typography sx={{ marginBottom: "9px", fontSize: "25px" }}>
-                {accountType}
-              </Typography>
-              <Typography sx={{ marginBottom: "10px" }}>
-                <strong>AccountID:</strong> {accountId}
-              </Typography>
-            </div>
-            <Divider />
-            <Table sx={{ width: "45vw" }} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCellStyled>Date, Time</TableCellStyled>
-                  <TableCellStyled>Description</TableCellStyled>
-                  <TableCellStyled align="left">Amount</TableCellStyled>
-                  <TableCellStyled align="right">
-                    Transaction Type
-                  </TableCellStyled>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <Typography align="center" paddingTop="15px">
-                  No transaction found
-                </Typography>
-              </TableBody>
-            </Table>
-            <Button
-              href="/"
-              color="black"
-              variant="elevated"
-              sx={{
-                margin: "5vh",
-                color: "grey",
-                backgroundColor: "white",
-                width: "20vh",
-                border: "solid 1px grey",
-              }}
-              type="submit"
-            >
-              Return home
-            </Button>
-          </TableContainer>
-        </Grid>
-      )}
+          )}
+          <Button
+            href="/"
+            color="black"
+            variant="elevated"
+            sx={{
+              margin: "5vh",
+              color: "grey",
+              backgroundColor: "white",
+              width: "20vh",
+              border: "solid 1px grey",
+            }}
+            type="submit"
+          >
+            Return home
+          </Button>
+        </TableContainer>
+      </Grid>
     </>
   );
 };
 
 export default AccountDetails;
+
+<TableBody>
+  <Typography align="center" paddingTop="15px">
+    No transaction found
+  </Typography>
+</TableBody>;

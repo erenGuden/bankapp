@@ -1,14 +1,15 @@
-import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
 import Logo from "../assets/logo.png";
+import LogoutIcon from "@mui/icons-material/Logout";
+import React from "react";
+import Toolbar from "@mui/material/Toolbar";
 import { styled } from "@mui/system";
+import { useNavigate } from "react-router-dom";
 
 const pages = ["Home", "Transaction", "Profile"];
-
 const LogoStyled = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     display: "none",
@@ -16,12 +17,20 @@ const LogoStyled = styled(Box)(({ theme }) => ({
 }));
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  const onClick = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("id");
+    navigate("/login");
+  };
+
   return (
     <AppBar
       position="static"
       style={{ backgroundColor: "lightblue", maxHeight: "100vh" }}
     >
-      <Container maxWidth="xl">
+      <Container>
         <Toolbar disableGutters>
           <LogoStyled
             component="img"
@@ -36,13 +45,20 @@ const Navbar = () => {
             <Button
               key={page}
               sx={{
-                padding: "20px",
+                padding: "40px",
                 color: "black",
               }}
             >
               {page}
             </Button>
           ))}
+          <Button
+            onClick={onClick}
+            sx={{ justifyContent: "flex-end", flexGrow: "1 ", color: "black" }}
+            startIcon={<LogoutIcon />}
+          >
+            LOG OUT
+          </Button>
         </Toolbar>
       </Container>
     </AppBar>

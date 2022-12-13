@@ -57,17 +57,24 @@ const AccountDetails = () => {
   }
   // Format amount as in currency
   function currencyFormat(num) {
-    if (num) {
-      return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/, "$1,") + "$";
+    if (num < 0) {
+      num *= -1;
+      num =
+        "-$" + (num || 0).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
     }
+    if (num > 0 || num === 0) {
+      num =
+        "$" + (num || 0).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+    }
+    return num;
   }
 
   return (
     <>
-      {transactions.length > 0 && (
-        <Grid>
-          <Navbar />
-          <TableContainer sx={{ marginTop: "7vh" }} align="center">
+      <Grid>
+        <Navbar />
+        <TableContainer sx={{ marginTop: "7vh" }} align="center">
+          {accountType && (
             <div sx={{ fontSize: "50px", fontWeight: "bold" }}>
               <Typography sx={{ fontSize: "65px", fontWeight: "bold" }}>
                 {currencyFormat(accountBalance)}
@@ -79,7 +86,13 @@ const AccountDetails = () => {
                 <strong>AccountID:</strong> {accountId}
               </Typography>
             </div>
-            <Divider />
+          )}
+          <Divider />
+          {transactions.length === 0 ? (
+            <Typography marginTop="10px" fontSize="18px">
+              No transaction found...
+            </Typography>
+          ) : (
             <Table sx={{ width: "45vw" }} aria-label="simple table">
               <TableHead>
                 <TableRow>
@@ -110,24 +123,24 @@ const AccountDetails = () => {
                 ))}
               </TableBody>
             </Table>
-            <Button
-              href="/"
-              color="black"
-              variant="elevated"
-              sx={{
-                margin: "5vh",
-                color: "grey",
-                backgroundColor: "white",
-                width: "20vh",
-                border: "solid 1px grey",
-              }}
-              type="submit"
-            >
-              Return home
-            </Button>
-          </TableContainer>
-        </Grid>
-      )}
+          )}
+          <Button
+            href="/"
+            color="black"
+            variant="elevated"
+            sx={{
+              margin: "5vh",
+              color: "grey",
+              backgroundColor: "white",
+              width: "20vh",
+              border: "solid 1px grey",
+            }}
+            type="submit"
+          >
+            Return home
+          </Button>
+        </TableContainer>
+      </Grid>
     </>
   );
 };

@@ -72,7 +72,6 @@ const AccountDetails = () => {
   return (
     <>
       <Grid>
-        <Navbar />
         <TableContainer sx={{ marginTop: "7vh" }} align="center">
           {accountType && (
             <div sx={{ fontSize: "50px", fontWeight: "bold" }}>

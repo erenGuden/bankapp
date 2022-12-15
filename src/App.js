@@ -3,16 +3,18 @@ import Login from "./components/Login";
 import NotProtectedRoute from "./routes/NotProtectedRoute";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Signup from "./components/Signup";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
 import AccountDetails from "./components/AccountDetails";
-
+import Navbar from "./components/Navbar";
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route element={<ProtectedRoute />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/account-details" element={<AccountDetails />} />
+          <Route element={<NavWrapper />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/account-details" element={<AccountDetails />} />
+          </Route>
         </Route>
         <Route element={<NotProtectedRoute />}>
           <Route path="/login" element={<Login />} />
@@ -20,6 +22,15 @@ function App() {
         </Route>
       </Routes>
     </BrowserRouter>
+  );
+}
+
+function NavWrapper() {
+  return (
+    <>
+      <Navbar />
+      <Outlet />
+    </>
   );
 }
 

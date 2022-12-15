@@ -39,7 +39,6 @@ const Home = () => {
     <>
       {accounts.length > 0 && (
         <Grid>
-          <Navbar />
           <Stack
             padding={10}
             spacing={3}

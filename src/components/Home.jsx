@@ -3,11 +3,11 @@ import AccountCard from "./AccountCard";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
+import { Box, styled } from "@mui/system";
 import { Divider, Grid, Modal, TextField } from "@mui/material";
 import { Stack } from "@mui/material";
 import { useEffect } from "react";
 import { useState } from "react";
-import { Box, styled } from "@mui/system";
 
 const Home = () => {
   const userId = localStorage.getItem("id");
@@ -125,6 +125,11 @@ const Home = () => {
               aria-describedby="modal-modal-description"
             >
               <BoxStyled>
+                {error && (
+                  <Typography align="center" color="red" fontWeight="bold">
+                    Account name can not be empty
+                  </Typography>
+                )}
                 <TextField
                   label="Account name"
                   variant="standard"

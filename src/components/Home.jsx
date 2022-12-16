@@ -1,13 +1,23 @@
+import {
+  Box,
+  Divider,
+  Grid,
+  Modal, Stack, TextField
+} from "@mui/material";
 import * as React from "react";
 import AccountCard from "./AccountCard";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
-import { Box, styled } from "@mui/system";
-import { Divider, Grid, Modal, TextField } from "@mui/material";
-import { Stack } from "@mui/material";
-import { useEffect } from "react";
-import { useState } from "react";
+import { styled } from "@mui/system";
+import { useEffect, useState } from "react";
+
+export const BoxStyled = styled(Box)(({ theme }) => ({
+  [theme.breakpoints.down("sm")]: {
+    width: "90vw",
+    height: "18vh",
+  },
+}));
 
 const Home = () => {
   const userId = localStorage.getItem("id");
@@ -19,23 +29,6 @@ const Home = () => {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
   const handleClose = () => setOpen(!open);
-
-  const BoxStyled = styled(Box)(({ theme }) => ({
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "20vw",
-    height: "16vh",
-    backgroundColor: "white",
-    border: "4px solid skyblue",
-    display: "inline",
-    paddingTop: "14px",
-    [theme.breakpoints.down("sm")]: {
-      width: "90vw",
-      height: "18vh",
-    },
-  }));
 
   const ButtonStyled = styled(Button)(({ theme }) => ({
     width: "10vw",
@@ -124,7 +117,20 @@ const Home = () => {
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
-              <BoxStyled>
+              <BoxStyled
+                sx={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  width: "20vw",
+                  height: "16vh",
+                  backgroundColor: "white",
+                  border: "4px solid skyblue",
+                  display: "inline",
+                  paddingTop: "14px",
+                }}
+              >
                 {error && (
                   <Typography align="center" color="red" fontWeight="bold">
                     Account name can not be empty

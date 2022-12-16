@@ -1,8 +1,3 @@
-import Logo from "../assets/logo.png";
-import axios from "axios";
-import { styled } from "@mui/system";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import {
   Alert,
   AlertTitle,
@@ -14,6 +9,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { styled } from "@mui/system";
+import axios from "axios";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Logo from "../assets/logo.png";
 
 const GridStyled = styled(Grid)(({ theme }) => ({
   width: "400px",
@@ -34,14 +34,13 @@ const Signup = () => {
   const [error, setError] = useState(false);
   const [availability, setAvailability] = useState(true);
 
-  const baseurl = `http://localhost:3000/api/users`;
+  const baseUrl = `${process.env.REACT_APP_BASE_URL}/users`;
   const navigate = useNavigate();
 
   const submitHandler = (e) => {
     e.preventDefault();
-
     axios
-      .post(baseurl, {
+      .post(baseUrl, {
         username,
         password,
         address,

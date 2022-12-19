@@ -1,9 +1,4 @@
-import {
-  Box,
-  Divider,
-  Grid,
-  Modal, Stack, TextField
-} from "@mui/material";
+import { Box, Divider, Grid, Modal, Stack, TextField } from "@mui/material";
 import * as React from "react";
 import AccountCard from "./AccountCard";
 import Button from "@mui/material/Button";
@@ -21,8 +16,10 @@ export const BoxStyled = styled(Box)(({ theme }) => ({
 
 const Home = () => {
   const userId = localStorage.getItem("id");
-  const baseurl = `http://localhost:3000/api/accounts?userId=${userId}`;
-  const createAccountUrl = `http://localhost:3000/api/accounts`;
+  const createAccountUrl = `${process.env.REACT_APP_BASE_URL}/accounts`;
+  const baseUrl = `${process.env.REACT_APP_BASE_URL}/accounts?userId=${userId}`;
+  // Get user details with userID
+  const userDetailsUrl = `${process.env.REACT_APP_BASE_URL}/users/${userId}`;
   const [accounts, setAccounts] = useState([]);
   const [userDetails, setUserDetails] = useState([]);
   const [name, setName] = useState("");
@@ -55,11 +52,8 @@ const Home = () => {
       });
   };
 
-  // Get user details with userID
-  const userDetailsUrl = `http://localhost:3000/api/users/${userId}`;
-
   useEffect(() => {
-    axios.get(baseurl).then((response) => {
+    axios.get(baseUrl).then((response) => {
       setAccounts(response.data);
     });
     axios.get(userDetailsUrl).then((users) => {
@@ -67,6 +61,7 @@ const Home = () => {
       data.username = capitalizeFirstLetter(users.data.username);
       setUserDetails(data);
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Capitalize the first letter of username

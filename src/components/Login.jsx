@@ -1,8 +1,3 @@
-import Logo from "../assets/logo.png";
-import React, { useState } from "react";
-import axios from "axios";
-import { styled } from "@mui/system";
-import { useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -11,8 +6,13 @@ import {
   Link,
   Stack,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
+import Logo from "../assets/logo.png";
+import React, { useState } from "react";
+import axios from "axios";
+import { styled } from "@mui/system";
+import { useNavigate } from "react-router-dom";
 
 const GridStyled = styled(Grid)(({ theme }) => ({
   width: "400px",
@@ -29,13 +29,13 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const navigate = useNavigate();
-  const baseurl = `http://localhost:3000/api/auth`;
+  const baseUrl = `${process.env.REACT_APP_BASE_URL}/auth`;
 
   const submitHandler = (e) => {
     e.preventDefault();
 
     axios
-      .post(baseurl, { username, password })
+      .post(baseUrl, { username, password })
       .then((response) => {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("id", response.data.id);

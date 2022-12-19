@@ -1,5 +1,4 @@
-import Navbar from "./Navbar";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -7,11 +6,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import axios from "axios";
-import { useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
-import { useState } from "react";
 import { Button, Divider, Grid, Typography } from "@mui/material";
 import { styled } from "@mui/system";
+import { useSearchParams } from "react-router-dom";
 
 const AccountDetails = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -19,8 +16,8 @@ const AccountDetails = () => {
   const [accountType, setAccountType] = useState();
   const [accountBalance, setAccountBalance] = useState();
   const [transactions, setTransactions] = useState([]);
-  const transactionsUrl = `http://localhost:3000/api/transactions/${accountId}`;
-  const baseurl = `http://localhost:3000/api/accounts/${accountId}`;
+  const transactionsUrl = `${process.env.REACT_APP_BASE_URL}/transactions/${accountId}`;
+  const baseUrl = `${process.env.REACT_APP_BASE_URL}/accounts/${accountId}`;
 
   const TableCellStyled = styled(TableCell)(({ theme }) => ({
     fontSize: "16px",
@@ -30,7 +27,7 @@ const AccountDetails = () => {
   }));
 
   useEffect(() => {
-    axios.get(baseurl).then((response) => {
+    axios.get(baseUrl).then((response) => {
       setAccountBalance(response.data.balance);
       setAccountType(response.data.name);
     });
@@ -39,6 +36,7 @@ const AccountDetails = () => {
       const mappedTransactions = refactorTransactions(data);
       setTransactions(mappedTransactions);
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function refactorTransactions(transactions) {

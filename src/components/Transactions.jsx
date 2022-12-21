@@ -1,14 +1,15 @@
 import {
   Autocomplete,
   Button,
-  FormGroup, InputAdornment,
+  FormGroup,
+  InputAdornment,
   InputLabel,
   MenuItem,
   OutlinedInput,
   Select,
   Tab,
   Tabs,
-  TextField
+  TextField,
 } from "@mui/material";
 import { Box, styled } from "@mui/system";
 import axios from "axios";
@@ -95,9 +96,13 @@ const Transactions = ({ account }) => {
             <Select
               id="demo-simple-select-helper"
               variant="outlined"
-              value={10}
+              defaultValue={""}
             >
-              <MenuItem value={10}>Ten</MenuItem>
+              {accounts.map((account) => (
+                <MenuItem key={account._id} value={account._id}>
+                  {account.name}
+                </MenuItem>
+              ))}
             </Select>
             <InputLabel
               sx={{ marginTop: "10px" }}
@@ -108,10 +113,13 @@ const Transactions = ({ account }) => {
             <Select
               id="demo-simple-select-helper"
               variant="outlined"
-              label="Transfer To"
-              value={10}
+              defaultValue={""}
             >
-              <MenuItem value={10}>Ten</MenuItem>
+              {accounts.map((account) => (
+                <MenuItem key={account._id} value={account._id}>
+                  {account.name}
+                </MenuItem>
+              ))}
             </Select>
             <InputLabel
               sx={{ marginTop: "10px" }}
@@ -124,6 +132,7 @@ const Transactions = ({ account }) => {
               startAdornment={
                 <InputAdornment position="start">$</InputAdornment>
               }
+              type="number"
             />
             <ButtonStyled color="primary" variant="contained" type="submit">
               Submit
@@ -140,9 +149,13 @@ const Transactions = ({ account }) => {
             <Select
               id="demo-simple-select-helper"
               variant="outlined"
-              value={10}
+              defaultValue={""}
             >
-              <MenuItem value={10}>Ten</MenuItem>
+              {accounts.map((account) => (
+                <MenuItem key={account._id} value={account._id}>
+                  {account.name}
+                </MenuItem>
+              ))}
             </Select>
             <InputLabel
               sx={{ marginTop: "10px" }}
@@ -177,6 +190,7 @@ const Transactions = ({ account }) => {
               startAdornment={
                 <InputAdornment position="start">$</InputAdornment>
               }
+              type="number"
             />
             <ButtonStyled color="primary" variant="contained" type="submit">
               Submit
@@ -194,9 +208,13 @@ const Transactions = ({ account }) => {
               labelId="demo-simple-select-helper-label"
               id="demo-simple-select-helper"
               variant="outlined"
-              value={10}
+              defaultValue={""}
             >
-              <MenuItem value={10}>Ten</MenuItem>
+              {accounts.map((account) => (
+                <MenuItem key={account._id} value={account._id}>
+                  {account.name}
+                </MenuItem>
+              ))}
             </Select>
             <InputLabel
               sx={{ marginTop: "10px" }}
@@ -207,9 +225,11 @@ const Transactions = ({ account }) => {
             <Select
               id="demo-simple-select-helper"
               variant="outlined"
-              value={"10"}
+              defaultValue={"Electric Company"}
             >
-              <MenuItem value={10}>Ten</MenuItem>
+              <MenuItem value={"Electric Company"}>Electric Company</MenuItem>
+              <MenuItem value={"Gas Company"}>Gas Company</MenuItem>
+
             </Select>
             <InputLabel
               sx={{ marginTop: "10px" }}
@@ -222,6 +242,7 @@ const Transactions = ({ account }) => {
               startAdornment={
                 <InputAdornment position="start">$</InputAdornment>
               }
+              type="number"
             />
             <ButtonStyled color="primary" variant="contained" type="submit">
               Submit

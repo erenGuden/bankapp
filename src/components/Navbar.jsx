@@ -25,6 +25,16 @@ const Navbar = () => {
     navigate("/login");
   };
 
+  const handleClick = () => {
+    if (pages[0]) {
+      navigate("/");
+      console.log("test");
+    }
+    if (pages[1]) {
+      navigate("/transactions");
+    }
+  };
+
   return (
     <AppBar
       position="static"
@@ -48,6 +58,7 @@ const Navbar = () => {
                 padding: "40px",
                 color: "black",
               }}
+              onClick={handleClick}
             >
               {page}
             </Button>

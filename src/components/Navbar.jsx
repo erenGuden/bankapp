@@ -45,28 +45,16 @@ const Navbar = () => {
             src={Logo}
           />
           <ButtonStyled
-            sx={{
-              padding: "40px",
-              color: "black",
-            }}
             href="/"
           >
             HOME
           </ButtonStyled>
           <ButtonStyled
-            sx={{
-              padding: "40px",
-              color: "black",
-            }}
             href="/transactions"
           >
             TRANSACTIONS
           </ButtonStyled>
           <ButtonStyled
-            sx={{
-              padding: "40px",
-              color: "black",
-            }}
           >
             PROFILE
           </ButtonStyled>

@@ -9,13 +9,16 @@ import Toolbar from "@mui/material/Toolbar";
 import { styled } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 
-const pages = ["Home", "Transaction", "Profile"];
 const LogoStyled = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     display: "none",
   },
 }));
 
+const ButtonStyled = styled(Button)(({ theme }) => ({
+  padding: "40px",
+  color: "black",
+}));
 const Navbar = () => {
   const navigate = useNavigate();
 
@@ -23,15 +26,6 @@ const Navbar = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("id");
     navigate("/login");
-  };
-
-  const handleClick = () => {
-    if (pages[0]) {
-      navigate("/");
-    }
-    if (pages[1]) {
-      navigate("/transactions");
-    }
   };
 
   return (
@@ -50,18 +44,32 @@ const Navbar = () => {
             alt="BankApp logo"
             src={Logo}
           />
-          {pages.map((page) => (
-            <Button
-              key={page}
-              sx={{
-                padding: "40px",
-                color: "black",
-              }}
-              onClick={handleClick}
-            >
-              {page}
-            </Button>
-          ))}
+          <ButtonStyled
+            sx={{
+              padding: "40px",
+              color: "black",
+            }}
+            href="/"
+          >
+            HOME
+          </ButtonStyled>
+          <ButtonStyled
+            sx={{
+              padding: "40px",
+              color: "black",
+            }}
+            href="/transactions"
+          >
+            TRANSACTIONS
+          </ButtonStyled>
+          <ButtonStyled
+            sx={{
+              padding: "40px",
+              color: "black",
+            }}
+          >
+            PROFILE
+          </ButtonStyled>
           <Button
             onClick={onClick}
             sx={{ justifyContent: "flex-end", flexGrow: "1 ", color: "black" }}

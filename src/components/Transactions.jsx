@@ -1,20 +1,10 @@
-import {
-  Autocomplete,
-  Button,
-  FormGroup,
-  InputAdornment,
-  InputLabel,
-  MenuItem,
-  OutlinedInput,
-  Select,
-  Tab,
-  Tabs,
-  TextField,
-} from "@mui/material";
+import { Button, FormGroup, Tab, Tabs } from "@mui/material";
 import { Box, styled } from "@mui/system";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-
+import Send from "./TabPanels/Send";
+import BillPay from "./TabPanels/BillPay";
+import Transfer from "./TabPanels/Transfer";
 export const BoxStyled = styled(Box)(({ theme }) => ({
   position: "absolute",
   top: "50%",
@@ -32,10 +22,30 @@ export const BoxStyled = styled(Box)(({ theme }) => ({
     height: "70%",
   },
 }));
+
 export const PanelBox = styled(Box)(({ theme }) => ({
   display: "flex",
   justifyContent: "center",
   padding: 20,
+}));
+
+// Format amount as in currency
+export function currencyFormat(num) {
+  return "$" + (num || 0).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+}
+
+export const FormControlStyled = styled(FormGroup)(({ theme }) => ({
+  width: "100%",
+  maxWidth: 550,
+  display: "flex",
+  justifyContent: "center",
+}));
+
+export const ButtonStyled = styled(Button)(({ theme }) => ({
+  maxWidth: 550,
+  width: "100%",
+  marginTop: 20,
+  backgroundColor: "lightblue",
 }));
 
 const Transactions = ({ account }) => {
@@ -43,6 +53,8 @@ const Transactions = ({ account }) => {
   const userId = localStorage.getItem("id");
   const [accounts, setAccounts] = useState([]);
   const baseUrl = `${process.env.REACT_APP_BASE_URL}/accounts?userId=${userId}`;
+  const transferUrl = `${process.env.REACT_APP_BASE_URL}/api/transactions/transfer`;
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -50,24 +62,10 @@ const Transactions = ({ account }) => {
   useEffect(() => {
     axios.get(baseUrl).then((response) => {
       setAccounts(response.data);
-      console.log(accounts);
+      // console.log(accounts);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const FormControlStyled = styled(FormGroup)(({ theme }) => ({
-    width: "100%",
-    maxWidth: 550,
-    display: "flex",
-    justifyContent: "center",
-  }));
-
-  const ButtonStyled = styled(Button)(({ theme }) => ({
-    maxWidth: 550,
-    width: "100%",
-    marginTop: 20,
-    backgroundColor: "lightblue",
-  }));
 
   function TabPanel(props) {
     const { children, value, index } = props;
@@ -88,167 +86,13 @@ const Transactions = ({ account }) => {
         <Tab label="Bill Pay" />
       </Tabs>
       <TabPanel value={value} index={0}>
-        <PanelBox>
-          <FormControlStyled>
-            <InputLabel id="demo-simple-select-helper-label">
-              Send From:
-            </InputLabel>
-            <Select
-              id="demo-simple-select-helper"
-              variant="outlined"
-              defaultValue={""}
-            >
-              {accounts.map((account) => (
-                <MenuItem key={account._id} value={account._id}>
-                  {account.name}
-                </MenuItem>
-              ))}
-            </Select>
-            <InputLabel
-              sx={{ marginTop: "10px" }}
-              id="demo-simple-select-helper-label"
-            >
-              Send To:
-            </InputLabel>
-            <Select
-              id="demo-simple-select-helper"
-              variant="outlined"
-              defaultValue={""}
-            >
-              {accounts.map((account) => (
-                <MenuItem key={account._id} value={account._id}>
-                  {account.name}
-                </MenuItem>
-              ))}
-            </Select>
-            <InputLabel
-              sx={{ marginTop: "10px" }}
-              htmlFor="outlined-adornment-amount"
-            >
-              Amount:
-            </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-amount"
-              startAdornment={
-                <InputAdornment position="start">$</InputAdornment>
-              }
-              type="number"
-            />
-            <ButtonStyled color="primary" variant="contained" type="submit">
-              Submit
-            </ButtonStyled>
-          </FormControlStyled>
-        </PanelBox>
+        <Transfer accounts={accounts} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <PanelBox>
-          <FormControlStyled>
-            <InputLabel id="demo-simple-select-helper-label">
-              Send From:
-            </InputLabel>
-            <Select
-              id="demo-simple-select-helper"
-              variant="outlined"
-              defaultValue={""}
-            >
-              {accounts.map((account) => (
-                <MenuItem key={account._id} value={account._id}>
-                  {account.name}
-                </MenuItem>
-              ))}
-            </Select>
-            <InputLabel
-              sx={{ marginTop: "10px" }}
-              id="demo-simple-select-helper-label"
-            >
-              Receiver Username:
-            </InputLabel>
-            <TextField
-              id="demo-simple-select-helper"
-              variant="outlined"
-              required
-            />
-            <InputLabel
-              sx={{ marginTop: "10px" }}
-              id="demo-simple-select-helper-label"
-            >
-              Receiver Account ID:
-            </InputLabel>
-            <TextField
-              id="demo-simple-select-helper"
-              variant="outlined"
-              required
-            />
-            <InputLabel
-              sx={{ marginTop: "10px" }}
-              htmlFor="outlined-adornment-amount"
-            >
-              Amount:
-            </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-amount"
-              startAdornment={
-                <InputAdornment position="start">$</InputAdornment>
-              }
-              type="number"
-            />
-            <ButtonStyled color="primary" variant="contained" type="submit">
-              Submit
-            </ButtonStyled>
-          </FormControlStyled>
-        </PanelBox>
+        <Send accounts={accounts} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <PanelBox>
-          <FormControlStyled>
-            <InputLabel id="demo-simple-select-helper-label">
-              Send From:
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-helper-label"
-              id="demo-simple-select-helper"
-              variant="outlined"
-              defaultValue={""}
-            >
-              {accounts.map((account) => (
-                <MenuItem key={account._id} value={account._id}>
-                  {account.name}
-                </MenuItem>
-              ))}
-            </Select>
-            <InputLabel
-              sx={{ marginTop: "10px" }}
-              id="demo-simple-select-helper-label"
-            >
-              Pay to:
-            </InputLabel>
-            <Select
-              id="demo-simple-select-helper"
-              variant="outlined"
-              defaultValue={"Electric Company"}
-            >
-              <MenuItem value={"Electric Company"}>Electric Company</MenuItem>
-              <MenuItem value={"Gas Company"}>Gas Company</MenuItem>
-
-            </Select>
-            <InputLabel
-              sx={{ marginTop: "10px" }}
-              htmlFor="outlined-adornment-amount"
-            >
-              Amount:
-            </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-amount"
-              startAdornment={
-                <InputAdornment position="start">$</InputAdornment>
-              }
-              type="number"
-            />
-            <ButtonStyled color="primary" variant="contained" type="submit">
-              Submit
-            </ButtonStyled>
-          </FormControlStyled>
-        </PanelBox>
+        <BillPay accounts={accounts} />
       </TabPanel>
     </BoxStyled>
   );

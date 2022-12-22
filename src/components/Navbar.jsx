@@ -28,7 +28,6 @@ const Navbar = () => {
   const handleClick = () => {
     if (pages[0]) {
       navigate("/");
-      console.log("test");
     }
     if (pages[1]) {
       navigate("/transactions");
@@ -66,7 +65,9 @@ const Navbar = () => {
           <Button
             onClick={onClick}
             sx={{ justifyContent: "flex-end", flexGrow: "1 ", color: "black" }}
-            startIcon={<LogoutIcon />}
+            startIcon={
+              <LogoutIcon sx={{ display: { xs: "none", sm: "block" } }} />
+            }
           >
             LOG OUT
           </Button>

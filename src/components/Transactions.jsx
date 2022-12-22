@@ -1,10 +1,11 @@
-import { Button, FormGroup, Tab, Tabs } from "@mui/material";
-import { Box, styled } from "@mui/system";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import Send from "./TabPanels/Send";
 import BillPay from "./TabPanels/BillPay";
+import Send from "./TabPanels/Send";
 import Transfer from "./TabPanels/Transfer";
+import axios from "axios";
+import { Box, styled } from "@mui/system";
+import { Button, FormGroup, Tab, Tabs } from "@mui/material";
+import { useEffect, useState } from "react";
+
 export const BoxStyled = styled(Box)(({ theme }) => ({
   position: "absolute",
   top: "50%",
@@ -62,7 +63,6 @@ const Transactions = ({ account }) => {
   useEffect(() => {
     axios.get(baseUrl).then((response) => {
       setAccounts(response.data);
-      // console.log(accounts);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

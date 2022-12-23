@@ -8,6 +8,16 @@ import { styled } from "@mui/system";
 import { useEffect, useState } from "react";
 
 export const BoxStyled = styled(Box)(({ theme }) => ({
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "30vw",
+  height: "24vh",
+  backgroundColor: "white",
+  border: "4px solid skyblue",
+  display: "inline",
+  paddingTop: "14px",
   [theme.breakpoints.down("sm")]: {
     width: "90vw",
     height: "18vh",
@@ -29,7 +39,7 @@ const Home = () => {
 
   const ButtonStyled = styled(Button)(({ theme }) => ({
     width: "10vw",
-    marginLeft: "115px",
+    marginLeft: "130px",
     marginBottom: "10px",
     backgroundColor: "lightblue",
     [theme.breakpoints.down("sm")]: {
@@ -61,7 +71,7 @@ const Home = () => {
       data.username = capitalizeFirstLetter(users.data.username);
       setUserDetails(data);
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Capitalize the first letter of username
@@ -112,20 +122,7 @@ const Home = () => {
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
-              <BoxStyled
-                sx={{
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                  width: "20vw",
-                  height: "16vh",
-                  backgroundColor: "white",
-                  border: "4px solid skyblue",
-                  display: "inline",
-                  paddingTop: "14px",
-                }}
-              >
+              <BoxStyled>
                 {error && (
                   <Typography align="center" color="red" fontWeight="bold">
                     Account name can not be empty

@@ -6,6 +6,7 @@ import Signup from "./components/Signup";
 import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
 import AccountDetails from "./components/AccountDetails";
 import Navbar from "./components/Navbar";
+import Transactions from "./components/Transactions";
 function App() {
   return (
     <BrowserRouter>
@@ -14,6 +15,7 @@ function App() {
           <Route element={<NavWrapper />}>
             <Route path="/" element={<Home />} />
             <Route path="/account-details" element={<AccountDetails />} />
+            <Route path="/transactions" element={<Transactions />} />
           </Route>
         </Route>
         <Route element={<NotProtectedRoute />}>

@@ -9,13 +9,16 @@ import Toolbar from "@mui/material/Toolbar";
 import { styled } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 
-const pages = ["Home", "Transaction", "Profile"];
 const LogoStyled = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     display: "none",
   },
 }));
 
+const ButtonStyled = styled(Button)(({ theme }) => ({
+  padding: "40px",
+  color: "black",
+}));
 const Navbar = () => {
   const navigate = useNavigate();
 
@@ -41,21 +44,15 @@ const Navbar = () => {
             alt="BankApp logo"
             src={Logo}
           />
-          {pages.map((page) => (
-            <Button
-              key={page}
-              sx={{
-                padding: "40px",
-                color: "black",
-              }}
-            >
-              {page}
-            </Button>
-          ))}
+          <ButtonStyled href="/">HOME</ButtonStyled>
+          <ButtonStyled href="/transactions">TRANSACTIONS</ButtonStyled>
+          <ButtonStyled>PROFILE</ButtonStyled>
           <Button
             onClick={onClick}
             sx={{ justifyContent: "flex-end", flexGrow: "1 ", color: "black" }}
-            startIcon={<LogoutIcon />}
+            startIcon={
+              <LogoutIcon sx={{ display: { xs: "none", sm: "block" } }} />
+            }
           >
             LOG OUT
           </Button>

@@ -44,20 +44,9 @@ const Navbar = () => {
             alt="BankApp logo"
             src={Logo}
           />
-          <ButtonStyled
-            href="/"
-          >
-            HOME
-          </ButtonStyled>
-          <ButtonStyled
-            href="/transactions"
-          >
-            TRANSACTIONS
-          </ButtonStyled>
-          <ButtonStyled
-          >
-            PROFILE
-          </ButtonStyled>
+          <ButtonStyled href="/">HOME</ButtonStyled>
+          <ButtonStyled href="/transactions">TRANSACTIONS</ButtonStyled>
+          <ButtonStyled>PROFILE</ButtonStyled>
           <Button
             onClick={onClick}
             sx={{ justifyContent: "flex-end", flexGrow: "1 ", color: "black" }}

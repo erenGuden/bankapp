@@ -23,8 +23,17 @@ const Transfer = ({ accounts }) => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [systemMessage, setSystemMessage] = useState("");
+  const [availableAccounts, setAvailableAccounts] = useState([]);
   const transferUrl = `${process.env.REACT_APP_BASE_URL}/transactions/transfer`;
   const navigate = useNavigate();
+
+  const onChange = (e) => {
+    setInitiatorId(e.target.value);
+    const availableAccounts = accounts.filter((account) => {
+      return account._id !== e.target.value;
+    });
+    setAvailableAccounts(availableAccounts);
+  };
 
   const handleSubmit = (e) => {
     axios
@@ -77,7 +86,7 @@ const Transfer = ({ accounts }) => {
           id="demo-simple-select-helper"
           variant="outlined"
           value={initiatorId}
-          onChange={(e) => setInitiatorId(e.target.value)}
+          onChange={onChange}
         >
           {accounts.map((account) => (
             <MenuItem key={account._id} value={account._id}>
@@ -97,7 +106,7 @@ const Transfer = ({ accounts }) => {
           value={receiverId}
           onChange={(e) => setReceiverId(e.target.value)}
         >
-          {accounts.map((account) => (
+          {availableAccounts.map((account) => (
             <MenuItem key={account._id} value={account._id}>
               {account.name} : {currencyFormat(account.balance)}
             </MenuItem>

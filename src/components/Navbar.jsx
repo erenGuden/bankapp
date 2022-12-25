@@ -49,13 +49,22 @@ const Navbar = () => {
           <ButtonStyled>PROFILE</ButtonStyled>
           <Button
             onClick={onClick}
-            sx={{ justifyContent: "flex-end", flexGrow: "1 ", color: "black" }}
+            sx={{
+              justifyContent: "flex-end",
+              flexGrow: "1 ",
+              color: "black",
+              display: { xs: "none", sm: "flex" },
+            }}
             startIcon={
               <LogoutIcon sx={{ display: { xs: "none", sm: "block" } }} />
             }
           >
             LOG OUT
           </Button>
+          <LogoutIcon
+            onClick={onClick}
+            sx={{ color: "black", display: { xs: "block", sm: "none" } }}
+          />
         </Toolbar>
       </Container>
     </AppBar>

@@ -1,8 +1,10 @@
 import {
+  Box,
   InputAdornment,
   InputLabel,
   MenuItem,
   OutlinedInput,
+  Paper,
   Select,
   TextField,
 } from "@mui/material";
@@ -11,7 +13,7 @@ import {
   ButtonStyled,
   currencyFormat,
   FormControlStyled,
-  PanelBox,
+  PanelPaper,
 } from "../Transactions";
 
 const Send = ({ accounts }) => {
@@ -21,7 +23,7 @@ const Send = ({ accounts }) => {
   const transferUrl = `${process.env.REACT_APP_BASE_URL}/api/transactions/transfer`;
 
   return (
-    <PanelBox>
+    <PanelPaper>
       <FormControlStyled>
         <InputLabel id="demo-simple-select-helper-label">Send From:</InputLabel>
         <Select
@@ -65,7 +67,8 @@ const Send = ({ accounts }) => {
           Submit
         </ButtonStyled>
       </FormControlStyled>
-    </PanelBox>
+    </PanelPaper>
+  
   );
 };
 

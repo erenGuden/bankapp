@@ -11,7 +11,7 @@ import {
   ButtonStyled,
   currencyFormat,
   FormControlStyled,
-  PanelBox,
+  PanelPaper,
 } from "../Transactions";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -59,7 +59,7 @@ const Transfer = ({ accounts }) => {
   };
 
   return (
-    <PanelBox>
+    <PanelPaper>
       <FormControlStyled>
         {success && (
           <Typography
@@ -135,7 +135,7 @@ const Transfer = ({ accounts }) => {
           Submit
         </ButtonStyled>
       </FormControlStyled>
-    </PanelBox>
+    </PanelPaper>
   );
 };
 

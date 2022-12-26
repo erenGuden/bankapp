@@ -11,7 +11,7 @@ export const BoxStyled = styled(Box)(({ theme }) => ({
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  height: "53vh",
+  height: "67vh",
   backgroundColor: "white",
   display: "inline",
   paddingTop: "10px",
@@ -27,7 +27,7 @@ export const PanelPaper = styled(Paper)(({ theme }) => ({
   display: "flex",
   justifyContent: "center",
   padding: 20,
-  height: "53vh",
+  height: "54vh",
   [theme.breakpoints.up("md")]: {
     display: "flex",
     justifyContent: "center",
@@ -68,6 +68,7 @@ const Transactions = ({ account }) => {
   useEffect(() => {
     axios.get(baseUrl).then((response) => {
       setAccounts(response.data);
+      console.log(response.data)
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

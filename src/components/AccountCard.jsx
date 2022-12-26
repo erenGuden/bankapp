@@ -10,7 +10,7 @@ import React from "react";
 
 const CardStyled = styled(Card)(({ theme }) => ({
   backgroundColor: "white",
-  width: "45vh",
+  width: "65vh",
   [theme.breakpoints.down("sm")]: {
     width: "40vh",
   },
@@ -18,7 +18,7 @@ const CardStyled = styled(Card)(({ theme }) => ({
 
 // Format amount as in currency
 function currencyFormat(num) {
-  return "$" + (num || 0).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+  return "$" + (num || 0).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 }
 
 const AccountCard = ({ account }) => {
@@ -31,7 +31,7 @@ const AccountCard = ({ account }) => {
             color="text.primary"
             gutterBottom
           >
-            Account name: {account.name}
+            <strong>{account.name}</strong>
           </Typography>
           <Typography variant="h5" component="div">
             {currencyFormat(account.balance)}

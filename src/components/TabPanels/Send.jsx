@@ -61,14 +61,13 @@ const Send = ({ accounts }) => {
           id="outlined-adornment-amount"
           startAdornment={<InputAdornment position="start">$</InputAdornment>}
           type="number"
-          defaultValue="0.00"
+          defaultValue="0"
         />
         <ButtonStyled color="primary" variant="contained" type="submit">
           Submit
         </ButtonStyled>
       </FormControlStyled>
     </PanelPaper>
-  
   );
 };
 

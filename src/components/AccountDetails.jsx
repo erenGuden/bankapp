@@ -11,13 +11,12 @@ import { styled } from "@mui/system";
 import { useSearchParams } from "react-router-dom";
 
 const AccountDetails = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const accountId = searchParams.get("id");
-  const [accountType, setAccountType] = useState();
   const [accountBalance, setAccountBalance] = useState();
+  const [accountType, setAccountType] = useState();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [transactions, setTransactions] = useState([]);
-  const transactionsUrl = `${process.env.REACT_APP_BASE_URL}/transactions/${accountId}`;
-  const baseUrl = `${process.env.REACT_APP_BASE_URL}/accounts/${accountId}`;
+  const accountId = searchParams.get("id");
+  const baseUrl = `${process.env.REACT_APP_BASE_URL}`;
 
   const TableCellStyled = styled(TableCell)(({ theme }) => ({
     fontSize: "16px",
@@ -27,16 +26,16 @@ const AccountDetails = () => {
   }));
 
   useEffect(() => {
-    axios.get(baseUrl).then((response) => {
+    axios.get(baseUrl + `/accounts/${accountId}`).then((response) => {
       setAccountBalance(response.data.balance);
       setAccountType(response.data.name);
     });
-    axios.get(transactionsUrl).then((transactions) => {
+    axios.get(baseUrl + `/transactions/${accountId}`).then((transactions) => {
       const { data } = transactions;
       const mappedTransactions = refactorTransactions(data);
       setTransactions(mappedTransactions);
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function refactorTransactions(transactions) {

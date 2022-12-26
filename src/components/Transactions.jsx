@@ -33,6 +33,9 @@ export const PanelPaper = styled(Paper)(({ theme }) => ({
     justifyContent: "center",
     padding: 5,
   },
+  [theme.breakpoints.down("sm")]: {
+    boxShadow: "none",
+  },
 }));
 
 // Format amount as in currency
@@ -54,21 +57,19 @@ export const ButtonStyled = styled(Button)(({ theme }) => ({
   backgroundColor: "lightblue",
 }));
 
-const Transactions = ({ account }) => {
-  const [value, setValue] = useState(0);
-  const userId = localStorage.getItem("id");
+const Transactions = () => {
   const [accounts, setAccounts] = useState([]);
-  const baseUrl = `${process.env.REACT_APP_BASE_URL}/accounts?userId=${userId}`;
-  const transferUrl = `${process.env.REACT_APP_BASE_URL}/api/transactions/transfer`;
+  const [value, setValue] = useState(0);
+  const baseUrl = `${process.env.REACT_APP_BASE_URL}`;
+  const userId = localStorage.getItem("id");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   useEffect(() => {
-    axios.get(baseUrl).then((response) => {
+    axios.get(baseUrl + `/accounts?userId=${userId}`).then((response) => {
       setAccounts(response.data);
-      console.log(response.data)
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

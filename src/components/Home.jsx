@@ -1,9 +1,8 @@
-import { Box, Divider, Grid, Modal, Stack, TextField } from "@mui/material";
-import * as React from "react";
 import AccountCard from "./AccountCard";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
+import { Box, Divider, Grid, Modal, Stack, TextField } from "@mui/material";
 import { styled } from "@mui/system";
 import { useEffect, useState } from "react";
 
@@ -25,16 +24,13 @@ export const BoxStyled = styled(Box)(({ theme }) => ({
 }));
 
 const Home = () => {
-  const userId = localStorage.getItem("id");
-  const createAccountUrl = `${process.env.REACT_APP_BASE_URL}/accounts`;
-  const baseUrl = `${process.env.REACT_APP_BASE_URL}/accounts?userId=${userId}`;
-  // Get user details with userID
-  const userDetailsUrl = `${process.env.REACT_APP_BASE_URL}/users/${userId}`;
   const [accounts, setAccounts] = useState([]);
-  const [userDetails, setUserDetails] = useState([]);
+  const [error, setError] = useState(false);
   const [name, setName] = useState("");
   const [open, setOpen] = useState(false);
-  const [error, setError] = useState(false);
+  const [userDetails, setUserDetails] = useState([]);
+  const baseUrl = `${process.env.REACT_APP_BASE_URL}`;
+  const userId = localStorage.getItem("id");
   const handleClose = () => setOpen(!open);
 
   const ButtonStyled = styled(Button)(({ theme }) => ({
@@ -50,7 +46,7 @@ const Home = () => {
 
   const handleSubmit = (e) => {
     axios
-      .post(createAccountUrl, { name, userId })
+      .post(baseUrl + `/accounts`, { name, userId })
       .then((response) => {
         window.location.reload(true);
       })
@@ -63,10 +59,10 @@ const Home = () => {
   };
 
   useEffect(() => {
-    axios.get(baseUrl).then((response) => {
+    axios.get(baseUrl + `/accounts?userId=${userId}`).then((response) => {
       setAccounts(response.data);
     });
-    axios.get(userDetailsUrl).then((users) => {
+    axios.get(baseUrl + `/users/${userId}`).then((users) => {
       const { data } = users;
       data.username = capitalizeFirstLetter(users.data.username);
       setUserDetails(data);

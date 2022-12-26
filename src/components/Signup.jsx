@@ -7,7 +7,7 @@ import {
   Link,
   Stack,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
 import { styled } from "@mui/system";
 import axios from "axios";
@@ -25,22 +25,22 @@ const GridStyled = styled(Grid)(({ theme }) => ({
 }));
 
 const Signup = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [address, setAddress] = useState("");
+  const [availability, setAvailability] = useState(true);
+  const [error, setError] = useState(false);
+  const [password, setPassword] = useState("");
   const [securityQuestion, setSecurityQuestion] = useState("");
   const [securityQuestionAnswer, setSecurityQuestionAnswer] = useState("");
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(false);
-  const [availability, setAvailability] = useState(true);
+  const [username, setUsername] = useState("");
 
-  const baseUrl = `${process.env.REACT_APP_BASE_URL}/users`;
+  const baseUrl = `${process.env.REACT_APP_BASE_URL}`;
   const navigate = useNavigate();
 
   const submitHandler = (e) => {
     e.preventDefault();
     axios
-      .post(baseUrl, {
+      .post(baseUrl+`/users`, {
         username,
         password,
         address,

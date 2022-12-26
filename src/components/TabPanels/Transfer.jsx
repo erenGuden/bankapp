@@ -19,14 +19,14 @@ import axios from "axios";
 import { useState } from "react";
 
 const Transfer = ({ accounts }) => {
-  const [initiatorId, setInitiatorId] = useState("");
-  const [receiverId, setReceiverId] = useState("");
   const [amount, setAmount] = useState(0);
-  const [success, setSuccess] = useState(false);
-  const [open, setOpen] = useState(true);
-  const [error, setError] = useState(false);
-  const [systemMessage, setSystemMessage] = useState("");
   const [availableAccounts, setAvailableAccounts] = useState([]);
+  const [error, setError] = useState(false);
+  const [initiatorId, setInitiatorId] = useState("");
+  const [open, setOpen] = useState(true);
+  const [receiverId, setReceiverId] = useState("");
+  const [success, setSuccess] = useState(false);
+  const [systemMessage, setSystemMessage] = useState("");
   const transferUrl = `${process.env.REACT_APP_BASE_URL}/transactions/transfer`;
 
   const onChange = (e) => {
@@ -38,12 +38,12 @@ const Transfer = ({ accounts }) => {
   };
 
   const handleSubmit = (e) => {
-    console.log(amount);
     axios
       .post(transferUrl, { initiatorId, receiverId, amount })
       .then((response) => {
         if (response.status === 200) {
           setSuccess(true);
+          setError(false);
           setSystemMessage(response.data);
         }
       })

@@ -29,13 +29,13 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const navigate = useNavigate();
-  const baseUrl = `${process.env.REACT_APP_BASE_URL}/auth`;
+  const baseUrl = `${process.env.REACT_APP_BASE_URL}`;
 
   const submitHandler = (e) => {
     e.preventDefault();
 
     axios
-      .post(baseUrl, { username, password })
+      .post(baseUrl + `/auth`, { username, password })
       .then((response) => {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("id", response.data.id);

@@ -1,3 +1,4 @@
+import CloseIcon from "@mui/icons-material/Close";
 import {
   Alert,
   Collapse,
@@ -8,17 +9,16 @@ import {
   MenuItem,
   OutlinedInput,
   Select,
-  TextField,
+  TextField
 } from "@mui/material";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import {
   ButtonStyled,
   currencyFormat,
   FormControlStyled,
-  PanelPaper,
+  PanelPaper
 } from "../Transactions";
-import CloseIcon from "@mui/icons-material/Close";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
 
 const Send = ({ accounts }) => {
   const [amount, setAmount] = useState();

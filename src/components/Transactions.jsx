@@ -3,7 +3,7 @@ import Send from "./TabPanels/Send";
 import Transfer from "./TabPanels/Transfer";
 import axios from "axios";
 import { Box, styled } from "@mui/system";
-import { Button, FormGroup, Tab, Tabs } from "@mui/material";
+import { Button, FormGroup, Paper, Tab, Tabs } from "@mui/material";
 import { useEffect, useState } from "react";
 
 export const BoxStyled = styled(Box)(({ theme }) => ({
@@ -11,12 +11,11 @@ export const BoxStyled = styled(Box)(({ theme }) => ({
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  height: "53vh",
+  height: "67vh",
   backgroundColor: "white",
-  border: "4px solid skyblue",
   display: "inline",
   paddingTop: "10px",
-  width: "60%",
+  width: "70%",
   [theme.breakpoints.down("sm")]: {
     border: "none",
     width: "100%",
@@ -24,10 +23,20 @@ export const BoxStyled = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const PanelBox = styled(Box)(({ theme }) => ({
+export const PanelPaper = styled(Paper)(({ theme }) => ({
   display: "flex",
   justifyContent: "center",
   padding: 20,
+  height: "100%",
+  minHeight: 450,
+  [theme.breakpoints.up("md")]: {
+    display: "flex",
+    justifyContent: "center",
+    padding: 5,
+  },
+  [theme.breakpoints.down("sm")]: {
+    boxShadow: "none",
+  },
 }));
 
 // Format amount as in currency
@@ -38,6 +47,9 @@ export function currencyFormat(num) {
 export const FormControlStyled = styled(FormGroup)(({ theme }) => ({
   width: "100%",
   maxWidth: 550,
+  height: "100%",
+  paddingTop: 0,
+  maxHeight: 500,
   display: "flex",
   justifyContent: "center",
 }));
@@ -49,19 +61,18 @@ export const ButtonStyled = styled(Button)(({ theme }) => ({
   backgroundColor: "lightblue",
 }));
 
-const Transactions = ({ account }) => {
-  const [value, setValue] = useState(0);
-  const userId = localStorage.getItem("id");
+const Transactions = () => {
   const [accounts, setAccounts] = useState([]);
-  const baseUrl = `${process.env.REACT_APP_BASE_URL}/accounts?userId=${userId}`;
-  const transferUrl = `${process.env.REACT_APP_BASE_URL}/api/transactions/transfer`;
+  const [value, setValue] = useState(0);
+  const baseUrl = `${process.env.REACT_APP_BASE_URL}`;
+  const userId = localStorage.getItem("id");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   useEffect(() => {
-    axios.get(baseUrl).then((response) => {
+    axios.get(baseUrl + `/accounts?userId=${userId}`).then((response) => {
       setAccounts(response.data);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

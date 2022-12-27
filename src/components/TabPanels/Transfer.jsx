@@ -1,31 +1,33 @@
-import { useState } from "react";
 import {
+  Alert,
+  Collapse,
+  IconButton,
   InputAdornment,
   InputLabel,
   MenuItem,
   OutlinedInput,
   Select,
-  Typography,
 } from "@mui/material";
 import {
   ButtonStyled,
   currencyFormat,
   FormControlStyled,
-  PanelBox,
+  PanelPaper,
 } from "../Transactions";
+import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const Transfer = ({ accounts }) => {
-  const [initiatorId, setInitiatorId] = useState("");
-  const [receiverId, setReceiverId] = useState("");
   const [amount, setAmount] = useState(0);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(false);
-  const [systemMessage, setSystemMessage] = useState("");
   const [availableAccounts, setAvailableAccounts] = useState([]);
-  const transferUrl = `${process.env.REACT_APP_BASE_URL}/transactions/transfer`;
-  const navigate = useNavigate();
+  const [error, setError] = useState(false);
+  const [initiatorId, setInitiatorId] = useState("");
+  const [open, setOpen] = useState(true);
+  const [receiverId, setReceiverId] = useState("");
+  const [success, setSuccess] = useState(false);
+  const [systemMessage, setSystemMessage] = useState("");
+  const baseUrl = `${process.env.REACT_APP_BASE_URL}`;
 
   const onChange = (e) => {
     setInitiatorId(e.target.value);
@@ -37,15 +39,16 @@ const Transfer = ({ accounts }) => {
 
   const handleSubmit = (e) => {
     axios
-      .post(transferUrl, { initiatorId, receiverId, amount })
+      .post(baseUrl + `/transactions/transfer`, {
+        initiatorId,
+        receiverId,
+        amount,
+      })
       .then((response) => {
         if (response.status === 200) {
           setSuccess(true);
+          setError(false);
           setSystemMessage(response.data);
-          setTimeout(() => {
-            setSuccess(false);
-            navigate("/");
-          }, 4000);
         }
       })
       .catch((error) => {
@@ -53,33 +56,58 @@ const Transfer = ({ accounts }) => {
         setSystemMessage(error.response.data);
         setTimeout(() => {
           setSuccess(false);
-          window.location.reload(true);
         }, 3000);
       });
   };
 
   return (
-    <PanelBox>
+    <PanelPaper>
       <FormControlStyled>
         {success && (
-          <Typography
-            align="center"
-            backgroundColor="green"
-            color="white"
-            fontWeight="bold"
-          >
-            {systemMessage}. Redirecting to the home page...
-          </Typography>
+          <Collapse in={open}>
+            <Alert
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setOpen(false);
+                    window.location.reload(true);
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+              sx={{ mb: 2 }}
+            >
+              {systemMessage}
+            </Alert>
+          </Collapse>
         )}
         {error && (
-          <Typography
-            align="center"
-            backgroundColor="red"
-            color="white"
-            fontWeight="bold"
-          >
-            {systemMessage}. Reloading the page...
-          </Typography>
+          <Collapse in={open}>
+            <Alert
+              variant="outlined"
+              severity="error"
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setOpen(false);
+                    window.location.reload(true);
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+              sx={{ mb: 2 }}
+            >
+              {systemMessage}
+            </Alert>
+          </Collapse>
         )}
         <InputLabel id="demo-simple-select-helper-label">Send From:</InputLabel>
         <Select
@@ -122,7 +150,7 @@ const Transfer = ({ accounts }) => {
           id="outlined-adornment-amount"
           startAdornment={<InputAdornment position="start">$</InputAdornment>}
           type="number"
-          defaultValue="0.00"
+          defaultValue="0"
           onChange={(e) => setAmount(e.target.value)}
         />
         <ButtonStyled
@@ -135,7 +163,7 @@ const Transfer = ({ accounts }) => {
           Submit
         </ButtonStyled>
       </FormControlStyled>
-    </PanelBox>
+    </PanelPaper>
   );
 };
 

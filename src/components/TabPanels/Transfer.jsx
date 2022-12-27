@@ -27,7 +27,7 @@ const Transfer = ({ accounts }) => {
   const [receiverId, setReceiverId] = useState("");
   const [success, setSuccess] = useState(false);
   const [systemMessage, setSystemMessage] = useState("");
-  const transferUrl = `${process.env.REACT_APP_BASE_URL}/transactions/transfer`;
+  const baseUrl = `${process.env.REACT_APP_BASE_URL}`;
 
   const onChange = (e) => {
     setInitiatorId(e.target.value);
@@ -39,7 +39,11 @@ const Transfer = ({ accounts }) => {
 
   const handleSubmit = (e) => {
     axios
-      .post(transferUrl, { initiatorId, receiverId, amount })
+      .post(baseUrl + `/transactions/transfer`, {
+        initiatorId,
+        receiverId,
+        amount,
+      })
       .then((response) => {
         if (response.status === 200) {
           setSuccess(true);

@@ -27,7 +27,8 @@ export const PanelPaper = styled(Paper)(({ theme }) => ({
   display: "flex",
   justifyContent: "center",
   padding: 20,
-  height: "54vh",
+  height: "100%",
+  minHeight: 450,
   [theme.breakpoints.up("md")]: {
     display: "flex",
     justifyContent: "center",
@@ -46,6 +47,9 @@ export function currencyFormat(num) {
 export const FormControlStyled = styled(FormGroup)(({ theme }) => ({
   width: "100%",
   maxWidth: 550,
+  height: "100%",
+  paddingTop: 0,
+  maxHeight: 500,
   display: "flex",
   justifyContent: "center",
 }));

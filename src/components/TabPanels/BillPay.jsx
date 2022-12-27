@@ -166,6 +166,7 @@ const BillPay = ({ accounts }) => {
           variant="contained"
           type="submit"
           onClick={handleSubmit}
+          disabled={!initiatorId || !receiverId || amount <= 0}
         >
           Submit
         </ButtonStyled>

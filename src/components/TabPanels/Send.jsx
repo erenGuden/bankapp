@@ -10,8 +10,6 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
 import {
   ButtonStyled,
   currencyFormat,
@@ -19,18 +17,22 @@ import {
   PanelPaper,
 } from "../Transactions";
 import CloseIcon from "@mui/icons-material/Close";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const Send = ({ accounts }) => {
-  const [initiatorId, setInitiatorId] = useState("");
-  const [receiverAccounts, setReceiverAccounts] = useState([]);
-  const [receiverUsername, setReceiverUsername] = useState();
-  const [receiverUserId, setReceiverUserId] = useState();
-  const [receiverId, setReceiverAccountId] = useState();
-  const [systemMessage, setSystemMessage] = useState();
-  const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(false);
   const [amount, setAmount] = useState();
+  const [error, setError] = useState(false);
+  const [initiatorId, setInitiatorId] = useState("");
   const [open, setOpen] = useState(true);
+  const [receiverAccounts, setReceiverAccounts] = useState([]);
+  const [receiverId, setReceiverAccountId] = useState();
+  const [receiverUserId, setReceiverUserId] = useState();
+  const [receiverUsername, setReceiverUsername] = useState();
+  const [success, setSuccess] = useState(false);
+  const [systemMessage, setSystemMessage] = useState();
+  const [transferError, setTransferError] = useState(false);
+  const [transferSuccess, setTransferSuccess] = useState(false);
   const baseUrl = `${process.env.REACT_APP_BASE_URL}`;
 
   const handleSubmit = (e) => {
@@ -41,20 +43,15 @@ const Send = ({ accounts }) => {
         amount,
       })
       .then((response) => {
-        console.log(response);
-        if (response.status === 200) {
-          setSuccess(true);
-          setError(false);
-          setSystemMessage(response.data);
-        }
+        if (response.status === 200) setTransferSuccess(true);
+        setTransferError(false);
+        setSystemMessage(response.data);
+      })
+      .catch((error) => {
+        setTransferError(true);
+        setTransferSuccess(false);
+        setSystemMessage(error.response.data);
       });
-    //   .catch((error) => {
-    //     setError(true);
-    //     setSystemMessage(error.response.data);
-    //     setTimeout(() => {
-    //       setSuccess(false);
-    //     }, 3000);
-    // });
   };
 
   useEffect(() => {
@@ -92,9 +89,33 @@ const Send = ({ accounts }) => {
   return (
     <PanelPaper>
       <FormControlStyled>
-        {success && (
+        {success ||
+          (transferSuccess && (
+            <Collapse in={open}>
+              <Alert
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      setOpen(false);
+                      window.location.reload(true);
+                    }}
+                  >
+                    <CloseIcon fontSize="inherit" />
+                  </IconButton>
+                }
+                sx={{ mb: 2 }}
+              >
+                {systemMessage}
+              </Alert>
+            </Collapse>
+          ))}
+        {transferError && (
           <Collapse in={open}>
             <Alert
+              severity="error"
               action={
                 <IconButton
                   aria-label="close"
@@ -102,7 +123,6 @@ const Send = ({ accounts }) => {
                   size="small"
                   onClick={() => {
                     setOpen(false);
-                    window.location.reload(true);
                   }}
                 >
                   <CloseIcon fontSize="inherit" />

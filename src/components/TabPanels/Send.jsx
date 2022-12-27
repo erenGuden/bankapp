@@ -1,5 +1,8 @@
 import {
+  Alert,
+  Collapse,
   FormHelperText,
+  IconButton,
   InputAdornment,
   InputLabel,
   MenuItem,
@@ -15,49 +18,50 @@ import {
   FormControlStyled,
   PanelPaper,
 } from "../Transactions";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Send = ({ accounts }) => {
   const [initiatorId, setInitiatorId] = useState("");
   const [receiverAccounts, setReceiverAccounts] = useState([]);
   const [receiverUsername, setReceiverUsername] = useState();
   const [receiverUserId, setReceiverUserId] = useState();
-  const [receiverAccountId, setReceiverAccountId] = useState();
+  const [receiverId, setReceiverAccountId] = useState();
+  const [systemMessage, setSystemMessage] = useState();
   const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(true);
+  const [success, setSuccess] = useState(false);
   const [amount, setAmount] = useState();
+  const [open, setOpen] = useState(true);
   const baseUrl = `${process.env.REACT_APP_BASE_URL}`;
 
   const handleSubmit = (e) => {
-    // axios
-    //   .post(baseUrl + `/transactions/transfer`, {
-    //     initiatorId,
-    //     receiverId,
-    //     amount,
-    //   })
-    //   .then((response) => {
-    //     console.log(response);
-    //       if (response.status === 200) {
-    //         setSuccess(true);
-    //         setError(false);
-    //         setSystemMessage(response.data);
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       setError(true);
-    //       setSystemMessage(error.response.data);
-    //       setTimeout(() => {
-    //         setSuccess(false);
-    //       }, 3000);
-    //   });
+    axios
+      .post(baseUrl + `/transactions/transfer`, {
+        initiatorId,
+        receiverId,
+        amount,
+      })
+      .then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+          setSuccess(true);
+          setError(false);
+          setSystemMessage(response.data);
+        }
+      });
+    //   .catch((error) => {
+    //     setError(true);
+    //     setSystemMessage(error.response.data);
+    //     setTimeout(() => {
+    //       setSuccess(false);
+    //     }, 3000);
+    // });
   };
 
-  //receiverUsername ile user var mi kontrol et ve userId yi set et.
   useEffect(() => {
     if (!receiverUsername) return;
     axios
       .get(baseUrl + `/users?username=${receiverUsername}`)
       .then((response) => {
-        console.log(response);
         const user = response?.data?.find(
           ({ username }) => username === receiverUsername
         );
@@ -66,7 +70,6 @@ const Send = ({ accounts }) => {
   }, [receiverUsername]);
 
   useEffect(() => {
-    console.log(receiverAccounts);
     if (!receiverUserId) return;
     axios.get(baseUrl + `/accounts?userId=${receiverUserId}`).then((result) => {
       setReceiverAccounts(result.data.map((acc) => acc._id));
@@ -74,16 +77,43 @@ const Send = ({ accounts }) => {
   }, [receiverUserId]);
 
   useEffect(() => {
-    if (!receiverAccountId) setError(false);
-  }, [receiverAccountId]);
+    if (!receiverId) setError(false);
+  }, [receiverId]);
 
   useEffect(() => {
-    if (!receiverAccounts.length || !receiverAccountId.length) return;
-    if (!receiverAccounts.includes(receiverAccountId)) setError(true);
-  }, [receiverAccountId]);
+    if (!receiverAccounts.length || !receiverId.length) return;
+    if (!receiverAccounts.includes(receiverId)) {
+      setError(true);
+    } else {
+      setError(false);
+    }
+  }, [receiverId]);
+
   return (
     <PanelPaper>
       <FormControlStyled>
+        {success && (
+          <Collapse in={open}>
+            <Alert
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setOpen(false);
+                    window.location.reload(true);
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+              sx={{ mb: 2 }}
+            >
+              {systemMessage}
+            </Alert>
+          </Collapse>
+        )}
         <InputLabel id="demo-simple-select-helper-label">Send From:</InputLabel>
         <Select
           labelId="demo-simple-select-helper-label"
@@ -110,15 +140,6 @@ const Send = ({ accounts }) => {
           onChange={(e) => setReceiverUsername(e.target.value)}
           required
         />
-        {!success && (
-          <FormHelperText
-            id="component-error-text"
-            sx={{ fontWeight: "bold" }}
-            error
-          >
-            Invalid Username
-          </FormHelperText>
-        )}
         <InputLabel
           sx={{ marginTop: "10px" }}
           id="demo-simple-select-helper-label"
@@ -158,7 +179,9 @@ const Send = ({ accounts }) => {
           variant="contained"
           type="submit"
           onClick={handleSubmit}
-          disabled={!receiverAccountId || !receiverUserId || !initiatorId || !amount || error  || !success}
+          disabled={
+            !receiverId || !receiverUserId || !initiatorId || !amount || error
+          }
         >
           Submit
         </ButtonStyled>

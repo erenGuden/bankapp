@@ -7,6 +7,7 @@ import {
   MenuItem,
   OutlinedInput,
   Select,
+  Typography,
 } from "@mui/material";
 import {
   ButtonStyled,
@@ -53,6 +54,7 @@ const Transfer = ({ accounts }) => {
       })
       .catch((error) => {
         setError(true);
+        setSuccess(false);
         setSystemMessage(error.response.data);
         setTimeout(() => {
           setSuccess(false);
@@ -63,52 +65,53 @@ const Transfer = ({ accounts }) => {
   return (
     <PanelPaper>
       <FormControlStyled>
-        {success && (
-          <Collapse in={open}>
-            <Alert
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setOpen(false);
-                    window.location.reload(true);
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-              sx={{ mb: 2 }}
-            >
-              {systemMessage}
-            </Alert>
-          </Collapse>
-        )}
-        {error && (
-          <Collapse in={open}>
-            <Alert
-              variant="outlined"
-              severity="error"
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setOpen(false);
-                    window.location.reload(true);
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-              sx={{ mb: 2 }}
-            >
-              {systemMessage}
-            </Alert>
-          </Collapse>
-        )}
+        <div style={{ minHeight: "8vh" }}>
+          {success && (
+            <Collapse in={open}>
+              <Alert
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      setOpen(false);
+                      window.location.reload(true);
+                    }}
+                  >
+                    <CloseIcon fontSize="inherit" />
+                  </IconButton>
+                }
+              >
+                {systemMessage}
+              </Alert>
+            </Collapse>
+          )}
+          {error && (
+            <Collapse in={open}>
+              <Alert
+                variant="outlined"
+                severity="error"
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      setOpen(false);
+                      window.location.reload(true);
+                    }}
+                  >
+                    <CloseIcon fontSize="inherit" />
+                  </IconButton>
+                }
+                sx={{ mb: 2 }}
+              >
+                {systemMessage}
+              </Alert>
+            </Collapse>
+          )}
+        </div>
         <InputLabel id="demo-simple-select-helper-label">Send From:</InputLabel>
         <Select
           id="demo-simple-select-helper"

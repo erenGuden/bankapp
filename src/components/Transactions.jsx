@@ -28,7 +28,7 @@ export const PanelPaper = styled(Paper)(({ theme }) => ({
   justifyContent: "center",
   padding: 20,
   height: "100%",
-  minHeight: 450,
+  minHeight: 500,
   [theme.breakpoints.up("md")]: {
     display: "flex",
     justifyContent: "center",

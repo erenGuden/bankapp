@@ -191,7 +191,7 @@ const Send = ({ accounts }) => {
           id="outlined-adornment-amount"
           startAdornment={<InputAdornment position="start">$</InputAdornment>}
           type="number"
-          defaultValue="0"
+          placeholder="0"
           onChange={(e) => setAmount(e.target.value)}
         />
         <ButtonStyled

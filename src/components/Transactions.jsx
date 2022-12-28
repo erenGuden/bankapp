@@ -28,7 +28,7 @@ export const PanelPaper = styled(Paper)(({ theme }) => ({
   justifyContent: "center",
   padding: 20,
   height: "100%",
-  minHeight: 500,
+  minHeight: 540,
   [theme.breakpoints.up("md")]: {
     display: "flex",
     justifyContent: "center",
@@ -49,7 +49,7 @@ export const FormControlStyled = styled(FormGroup)(({ theme }) => ({
   maxWidth: 550,
   height: "100%",
   paddingTop: 0,
-  maxHeight: 500,
+  maxHeight: 550,
   display: "flex",
   justifyContent: "center",
 }));

@@ -9,7 +9,7 @@ import {
   MenuItem,
   OutlinedInput,
   Select,
-  TextField
+  TextField,
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -17,7 +17,7 @@ import {
   ButtonStyled,
   currencyFormat,
   FormControlStyled,
-  PanelPaper
+  PanelPaper,
 } from "../Transactions";
 
 const Send = ({ accounts }) => {
@@ -29,6 +29,7 @@ const Send = ({ accounts }) => {
   const [receiverId, setReceiverAccountId] = useState();
   const [receiverUserId, setReceiverUserId] = useState();
   const [receiverUsername, setReceiverUsername] = useState();
+  const [usernameError, setUsernameError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [systemMessage, setSystemMessage] = useState();
   const [transferError, setTransferError] = useState(false);
@@ -59,6 +60,11 @@ const Send = ({ accounts }) => {
     axios
       .get(baseUrl + `/users?username=${receiverUsername}`)
       .then((response) => {
+        if (!response.data.length) {
+          setUsernameError(true);
+        } else {
+          setUsernameError(false);
+        }
         const user = response?.data?.find(
           ({ username }) => username === receiverUsername
         );
@@ -74,11 +80,8 @@ const Send = ({ accounts }) => {
   }, [receiverUserId]);
 
   useEffect(() => {
-    if (!receiverId) setError(false);
-  }, [receiverId]);
-
-  useEffect(() => {
     if (!receiverAccounts.length || !receiverId.length) return;
+    if (!receiverId) setError(false);
     if (!receiverAccounts.includes(receiverId)) {
       setError(true);
     } else {
@@ -89,10 +92,34 @@ const Send = ({ accounts }) => {
   return (
     <PanelPaper>
       <FormControlStyled>
-        {success ||
-          (transferSuccess && (
+        <div style={{ minHeight: "8vh" }}>
+          {success ||
+            (transferSuccess && (
+              <Collapse in={open}>
+                <Alert
+                  action={
+                    <IconButton
+                      aria-label="close"
+                      color="inherit"
+                      size="small"
+                      onClick={() => {
+                        setOpen(false);
+                        window.location.reload(true);
+                      }}
+                    >
+                      <CloseIcon fontSize="inherit" />
+                    </IconButton>
+                  }
+                  sx={{ mb: 2 }}
+                >
+                  {systemMessage}
+                </Alert>
+              </Collapse>
+            ))}
+          {transferError && (
             <Collapse in={open}>
               <Alert
+                severity="error"
                 action={
                   <IconButton
                     aria-label="close"
@@ -100,7 +127,6 @@ const Send = ({ accounts }) => {
                     size="small"
                     onClick={() => {
                       setOpen(false);
-                      window.location.reload(true);
                     }}
                   >
                     <CloseIcon fontSize="inherit" />
@@ -111,29 +137,8 @@ const Send = ({ accounts }) => {
                 {systemMessage}
               </Alert>
             </Collapse>
-          ))}
-        {transferError && (
-          <Collapse in={open}>
-            <Alert
-              severity="error"
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setOpen(false);
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-              sx={{ mb: 2 }}
-            >
-              {systemMessage}
-            </Alert>
-          </Collapse>
-        )}
+          )}
+        </div>
         <InputLabel id="demo-simple-select-helper-label">Send From:</InputLabel>
         <Select
           labelId="demo-simple-select-helper-label"
@@ -160,6 +165,17 @@ const Send = ({ accounts }) => {
           onChange={(e) => setReceiverUsername(e.target.value)}
           required
         />
+        <div style={{ height: "0.5vh" }}>
+          {usernameError && (
+            <FormHelperText
+              id="component-error-text"
+              sx={{ fontWeight: "bold" }}
+              error
+            >
+              Invalid Account ID
+            </FormHelperText>
+          )}
+        </div>
         <InputLabel
           sx={{ marginTop: "10px" }}
           id="demo-simple-select-helper-label"
@@ -172,15 +188,17 @@ const Send = ({ accounts }) => {
           onChange={(e) => setReceiverAccountId(e.target.value)}
           required
         />
-        {error && (
-          <FormHelperText
-            id="component-error-text"
-            sx={{ fontWeight: "bold" }}
-            error
-          >
-            Invalid Account ID
-          </FormHelperText>
-        )}
+        <div style={{ height: "0.5vh" }}>
+          {error && (
+            <FormHelperText
+              id="component-error-text"
+              sx={{ fontWeight: "bold" }}
+              error
+            >
+              Invalid Account ID
+            </FormHelperText>
+          )}
+        </div>
         <InputLabel
           sx={{ marginTop: "10px" }}
           htmlFor="outlined-adornment-amount"

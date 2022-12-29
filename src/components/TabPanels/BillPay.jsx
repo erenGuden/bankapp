@@ -71,51 +71,53 @@ const BillPay = ({ accounts }) => {
   return (
     <PanelPaper>
       <FormControlStyled>
-        {success && (
-          <Collapse in={open}>
-            <Alert
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setOpen(false);
-                    window.location.reload(true);
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-              sx={{ mb: 2 }}
-            >
-              {systemMessage}
-            </Alert>
-          </Collapse>
-        )}
-        {error && (
-          <Collapse in={open}>
-            <Alert
-              variant="outlined"
-              severity="error"
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setOpen(false);
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-              sx={{ mb: 2 }}
-            >
-              {systemMessage}
-            </Alert>
-          </Collapse>
-        )}
+        <div style={{ minHeight: "8vh" }}>
+          {success && (
+            <Collapse in={open}>
+              <Alert
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      setOpen(false);
+                      window.location.reload(true);
+                    }}
+                  >
+                    <CloseIcon fontSize="inherit" />
+                  </IconButton>
+                }
+                sx={{ mb: 2 }}
+              >
+                {systemMessage}
+              </Alert>
+            </Collapse>
+          )}
+          {error && (
+            <Collapse in={open}>
+              <Alert
+                variant="outlined"
+                severity="error"
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      setOpen(false);
+                    }}
+                  >
+                    <CloseIcon fontSize="inherit" />
+                  </IconButton>
+                }
+                sx={{ mb: 2 }}
+              >
+                {systemMessage}
+              </Alert>
+            </Collapse>
+          )}
+        </div>
         <InputLabel id="demo-simple-select-helper-label">Send From:</InputLabel>
         <Select
           labelId="demo-simple-select-helper-label"

@@ -60,7 +60,6 @@ const Send = ({ accounts }) => {
     axios
       .get(baseUrl + `/users?username=${receiverUsername}`)
       .then((response) => {
-        console.log(response.data);
         if (!response.data.length) {
           setUsernameError(true);
         } else {

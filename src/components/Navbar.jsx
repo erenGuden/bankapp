@@ -46,7 +46,7 @@ const Navbar = () => {
           />
           <ButtonStyled href="/">HOME</ButtonStyled>
           <ButtonStyled href="/transactions">TRANSACTIONS</ButtonStyled>
-          <ButtonStyled>PROFILE</ButtonStyled>
+          <ButtonStyled href="/profile">PROFILE</ButtonStyled>
           <Button
             onClick={onClick}
             sx={{

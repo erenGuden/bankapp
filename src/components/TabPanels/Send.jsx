@@ -29,6 +29,7 @@ const Send = ({ accounts }) => {
   const [receiverId, setReceiverAccountId] = useState();
   const [receiverUserId, setReceiverUserId] = useState();
   const [receiverUsername, setReceiverUsername] = useState();
+  const [usernameError, setUsernameError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [systemMessage, setSystemMessage] = useState();
   const [transferError, setTransferError] = useState(false);
@@ -59,6 +60,12 @@ const Send = ({ accounts }) => {
     axios
       .get(baseUrl + `/users?username=${receiverUsername}`)
       .then((response) => {
+        console.log(response.data);
+        if (!response.data.length) {
+          setUsernameError(true);
+        } else {
+          setUsernameError(false);
+        }
         const user = response?.data?.find(
           ({ username }) => username === receiverUsername
         );
@@ -74,11 +81,8 @@ const Send = ({ accounts }) => {
   }, [receiverUserId]);
 
   useEffect(() => {
-    if (!receiverId) setError(false);
-  }, [receiverId]);
-
-  useEffect(() => {
     if (!receiverAccounts.length || !receiverId.length) return;
+    if (!receiverId) setError(false);
     if (!receiverAccounts.includes(receiverId)) {
       setError(true);
     } else {
@@ -162,6 +166,17 @@ const Send = ({ accounts }) => {
           onChange={(e) => setReceiverUsername(e.target.value)}
           required
         />
+        <div style={{ height: "0.5vh" }}>
+          {usernameError && (
+            <FormHelperText
+              id="component-error-text"
+              sx={{ fontWeight: "bold" }}
+              error
+            >
+              Invalid Account ID
+            </FormHelperText>
+          )}
+        </div>
         <InputLabel
           sx={{ marginTop: "10px" }}
           id="demo-simple-select-helper-label"

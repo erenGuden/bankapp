@@ -16,8 +16,9 @@ const LogoStyled = styled(Box)(({ theme }) => ({
 }));
 
 const ButtonStyled = styled(Button)(({ theme }) => ({
-  padding: "40px",
+  padding: "42px",
   color: "black",
+  fontWeight: "bold"
 }));
 const Navbar = () => {
   const navigate = useNavigate();

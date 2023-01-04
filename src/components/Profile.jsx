@@ -71,7 +71,6 @@ const Profile = () => {
     axios
       .post(baseUrl + `/auth/check-password`, { id, password })
       .then((response) => {
-        console.log(response);
         if (response.data == false) {
           setPasswordValidation(false);
           setSystemMessage(
@@ -87,7 +86,6 @@ const Profile = () => {
     axios
       .put(baseUrl + `/users/username/${userId}`, { username })
       .then((response) => {
-        console.log(response);
         if (response.status === 200) {
           setSuccess(true);
           setError(false);
@@ -105,7 +103,6 @@ const Profile = () => {
     axios
       .put(baseUrl + `/users/address/${userId}`, { address })
       .then((response) => {
-        console.log(response);
         if (response.status === 200) {
           setSuccess(true);
           setError(false);
@@ -126,7 +123,6 @@ const Profile = () => {
         securityQuestionAnswer,
       })
       .then((response) => {
-        console.log(response);
         if (response.status === 200) {
           setSuccess(true);
           setError(false);
@@ -160,7 +156,6 @@ const Profile = () => {
         password: values.confirmNewPassword,
       })
       .then((result) => {
-        console.log(result);
         setPasswordValidation(true);
         setError(false);
         setSuccess(true);

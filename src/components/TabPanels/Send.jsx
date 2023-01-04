@@ -172,7 +172,7 @@ const Send = ({ accounts }) => {
               sx={{ fontWeight: "bold" }}
               error
             >
-              Invalid Account ID
+              Invalid Username
             </FormHelperText>
           )}
         </div>

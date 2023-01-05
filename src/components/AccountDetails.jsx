@@ -68,75 +68,91 @@ const AccountDetails = () => {
 
   return (
     <>
-      <Grid>
-        <TableContainer sx={{ marginTop: "7vh" }} align="center">
-          {accountType && (
-            <div sx={{ fontSize: "50px", fontWeight: "bold" }}>
-              <Typography sx={{ fontSize: "65px", fontWeight: "bold" }}>
-                {currencyFormat(accountBalance)}
-              </Typography>
-              <Typography sx={{ marginBottom: "9px", fontSize: "25px" }}>
-                {accountType}
-              </Typography>
-              <Typography sx={{ marginBottom: "10px" }}>
-                <strong>AccountID:</strong> {accountId}
-              </Typography>
-            </div>
-          )}
-          <Divider />
-          {transactions.length === 0 ? (
-            <Typography marginTop="10px" fontSize="18px">
-              No transaction found...
+      <TableContainer sx={{ marginTop: "7vh" }} align="center">
+        {accountType && (
+          <div sx={{ fontSize: "50px", fontWeight: "bold" }}>
+            <Typography sx={{ fontSize: "65px", fontWeight: "bold" }}>
+              {currencyFormat(accountBalance)}
             </Typography>
-          ) : (
-            <Table sx={{ width: "45vw" }} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCellStyled>Date, Time</TableCellStyled>
-                  <TableCellStyled>Description</TableCellStyled>
-                  <TableCellStyled align="left">Amount</TableCellStyled>
-                  <TableCellStyled align="right">
-                    Transaction Type
-                  </TableCellStyled>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {transactions.map((transaction) => (
-                  <TableRow
-                    transactions={transaction}
-                    key={transaction._id}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell component="th" scope="row">
-                      {transaction.date}
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                      {transaction.description}
-                    </TableCell>
-                    <TableCell align="right">{transaction.amount}</TableCell>
-                    <TableCell align="right">{transaction.type}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-          <Button
-            href="/"
-            color="black"
-            variant="elevated"
-            sx={{
-              margin: "5vh",
-              color: "grey",
-              backgroundColor: "white",
-              width: "20vh",
-              border: "solid 1px grey",
-            }}
-            type="submit"
+            <Typography sx={{ marginBottom: "9px", fontSize: "25px" }}>
+              {accountType}
+            </Typography>
+            <Typography sx={{ marginBottom: "10px" }}>
+              <strong>AccountID:</strong> {accountId}
+            </Typography>
+          </div>
+        )}
+        <Divider sx={{ width: "100vw" }} />
+        {transactions.length === 0 ? (
+          <Typography marginTop="10px" fontSize="18px">
+            No transaction found...
+          </Typography>
+        ) : (
+          <Table
+            sx={{ width: "45vw" }}
+            table-layout="fixed"
+            aria-label="simple table"
           >
-            Return home
-          </Button>
-        </TableContainer>
-      </Grid>
+            <TableHead>
+              <TableRow>
+                {/* <TableCellStyled
+                    sx={{ display: { xs: "none", sm: "none", md: "none" } }}
+                  >
+                    Date, Time
+                  </TableCellStyled> */}
+                <TableCellStyled align="left">Description</TableCellStyled>
+                <TableCellStyled align="right">Amount</TableCellStyled>
+                <TableCellStyled align="right">Type</TableCellStyled>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {transactions.map((transaction) => (
+                <TableRow
+                  transactions={transaction}
+                  key={transaction._id}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  {/* <TableCell
+                      component="th"
+                      scope="row"
+                      sx={{ display: { xs: "none", sm: "none", md: "none" } }}
+                    >
+                      {transaction.date}
+                    </TableCell> */}
+                  <TableCell component="th" scope="row" align="left">
+                    {transaction.description}
+                    <Typography
+                      sx={{
+                        fontSize: "14px",
+                        color:"text.secondary"
+                      }}
+                    >
+                      {transaction.date}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="right">{transaction.amount}</TableCell>
+                  <TableCell align="right">{transaction.type}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
+        <Button
+          href="/"
+          color="black"
+          variant="elevated"
+          sx={{
+            margin: "5vh",
+            color: "grey",
+            backgroundColor: "white",
+            width: "20vh",
+            border: "solid 1px grey",
+          }}
+          type="submit"
+        >
+          Return home
+        </Button>
+      </TableContainer>
     </>
   );
 };

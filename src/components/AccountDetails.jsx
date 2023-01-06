@@ -20,8 +20,15 @@ const AccountDetails = () => {
 
   const TableCellStyled = styled(TableCell)(({ theme }) => ({
     fontSize: "16px",
+    width: "10rem",
     [theme.breakpoints.down("sm")]: {
       align: "right",
+    },
+  }));
+
+  const DateTableCellStyled = styled(TableCellStyled)(({ theme }) => ({
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
     },
   }));
 
@@ -42,10 +49,10 @@ const AccountDetails = () => {
     return transactions.map((t) => {
       if (t.initiatorId === accountId) {
         t.amount *= -1;
-        t.description = `Transfer_to AccountID: ${t.receiverId}`;
+        t.description = `${t.type}_to AccountID: ${t.receiverId}`;
       }
       if (t.initiatorId !== accountId) {
-        t.description = `Transfer_from AccountID: ${t.initiatorId}`;
+        t.description = `${t.type}_from AccountID: ${t.initiatorId}`;
       }
       t.date = t.date.split("T")[0] + ", " + t.date.slice(11, 16);
       t.amount = currencyFormat(t.amount);
@@ -95,14 +102,9 @@ const AccountDetails = () => {
           >
             <TableHead>
               <TableRow>
-                {/* <TableCellStyled
-                    sx={{ display: { xs: "none", sm: "none", md: "none" } }}
-                  >
-                    Date, Time
-                  </TableCellStyled> */}
+                <DateTableCellStyled>Date, Time</DateTableCellStyled>
                 <TableCellStyled align="left">Description</TableCellStyled>
                 <TableCellStyled align="right">Amount</TableCellStyled>
-                <TableCellStyled align="right">Type</TableCellStyled>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -112,26 +114,26 @@ const AccountDetails = () => {
                   key={transaction._id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  {/* <TableCell
-                      component="th"
-                      scope="row"
-                      sx={{ display: { xs: "none", sm: "none", md: "none" } }}
-                    >
-                      {transaction.date}
-                    </TableCell> */}
+                  <DateTableCellStyled
+                    component="th"
+                    scope="row"
+                    sx={{ fontSize: "14px" }}
+                  >
+                    {transaction.date}
+                  </DateTableCellStyled>
                   <TableCell component="th" scope="row" align="left">
                     {transaction.description}
                     <Typography
                       sx={{
                         fontSize: "14px",
-                        color:"text.secondary"
+                        color: "text.secondary",
+                        display: { md: "none", lg: "none" },
                       }}
                     >
                       {transaction.date}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">{transaction.amount}</TableCell>
-                  <TableCell align="right">{transaction.type}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

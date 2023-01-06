@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { Button, Divider, Typography } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import axios from "axios";
-import { Button, Divider, Grid, Typography } from "@mui/material";
 import { styled } from "@mui/system";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 const AccountDetails = () => {
@@ -96,7 +96,10 @@ const AccountDetails = () => {
           </Typography>
         ) : (
           <Table
-            sx={{ width: "45vw" }}
+            sx={{
+              width: { lg: "60vw", xs: "95vw" },
+              padding: 0,
+            }}
             table-layout="fixed"
             aria-label="simple table"
           >

@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { Button, Divider, Typography } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import axios from "axios";
-import { Button, Divider, Grid, Typography } from "@mui/material";
 import { styled } from "@mui/system";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 const AccountDetails = () => {
@@ -20,8 +20,15 @@ const AccountDetails = () => {
 
   const TableCellStyled = styled(TableCell)(({ theme }) => ({
     fontSize: "16px",
+    width: "10rem",
     [theme.breakpoints.down("sm")]: {
       align: "right",
+    },
+  }));
+
+  const DateTableCellStyled = styled(TableCellStyled)(({ theme }) => ({
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
     },
   }));
 
@@ -42,10 +49,10 @@ const AccountDetails = () => {
     return transactions.map((t) => {
       if (t.initiatorId === accountId) {
         t.amount *= -1;
-        t.description = `Transfer_to AccountID: ${t.receiverId}`;
+        t.description = `${t.type}_to AccountID: ${t.receiverId}`;
       }
       if (t.initiatorId !== accountId) {
-        t.description = `Transfer_from AccountID: ${t.initiatorId}`;
+        t.description = `${t.type}_from AccountID: ${t.initiatorId}`;
       }
       t.date = t.date.split("T")[0] + ", " + t.date.slice(11, 16);
       t.amount = currencyFormat(t.amount);
@@ -68,75 +75,89 @@ const AccountDetails = () => {
 
   return (
     <>
-      <Grid>
-        <TableContainer sx={{ marginTop: "7vh" }} align="center">
-          {accountType && (
-            <div sx={{ fontSize: "50px", fontWeight: "bold" }}>
-              <Typography sx={{ fontSize: "65px", fontWeight: "bold" }}>
-                {currencyFormat(accountBalance)}
-              </Typography>
-              <Typography sx={{ marginBottom: "9px", fontSize: "25px" }}>
-                {accountType}
-              </Typography>
-              <Typography sx={{ marginBottom: "10px" }}>
-                <strong>AccountID:</strong> {accountId}
-              </Typography>
-            </div>
-          )}
-          <Divider />
-          {transactions.length === 0 ? (
-            <Typography marginTop="10px" fontSize="18px">
-              No transaction found...
+      <TableContainer sx={{ marginTop: "7vh" }} align="center">
+        {accountType && (
+          <div sx={{ fontSize: "50px", fontWeight: "bold" }}>
+            <Typography sx={{ fontSize: "65px", fontWeight: "bold" }}>
+              {currencyFormat(accountBalance)}
             </Typography>
-          ) : (
-            <Table sx={{ width: "45vw" }} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCellStyled>Date, Time</TableCellStyled>
-                  <TableCellStyled>Description</TableCellStyled>
-                  <TableCellStyled align="left">Amount</TableCellStyled>
-                  <TableCellStyled align="right">
-                    Transaction Type
-                  </TableCellStyled>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {transactions.map((transaction) => (
-                  <TableRow
-                    transactions={transaction}
-                    key={transaction._id}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell component="th" scope="row">
-                      {transaction.date}
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                      {transaction.description}
-                    </TableCell>
-                    <TableCell align="right">{transaction.amount}</TableCell>
-                    <TableCell align="right">{transaction.type}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-          <Button
-            href="/"
-            color="black"
-            variant="elevated"
+            <Typography sx={{ marginBottom: "9px", fontSize: "25px" }}>
+              {accountType}
+            </Typography>
+            <Typography sx={{ marginBottom: "10px" }}>
+              <strong>AccountID:</strong> {accountId}
+            </Typography>
+          </div>
+        )}
+        <Divider sx={{ width: "100vw" }} />
+        {transactions.length === 0 ? (
+          <Typography marginTop="10px" fontSize="18px">
+            No transaction found...
+          </Typography>
+        ) : (
+          <Table
             sx={{
-              margin: "5vh",
-              color: "grey",
-              backgroundColor: "white",
-              width: "20vh",
-              border: "solid 1px grey",
+              width: { lg: "60vw", xs: "95vw" },
+              padding: 0,
             }}
-            type="submit"
+            table-layout="fixed"
+            aria-label="simple table"
           >
-            Return home
-          </Button>
-        </TableContainer>
-      </Grid>
+            <TableHead>
+              <TableRow>
+                <DateTableCellStyled>Date, Time</DateTableCellStyled>
+                <TableCellStyled align="left">Description</TableCellStyled>
+                <TableCellStyled align="right">Amount</TableCellStyled>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {transactions.map((transaction) => (
+                <TableRow
+                  transactions={transaction}
+                  key={transaction._id}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <DateTableCellStyled
+                    component="th"
+                    scope="row"
+                    sx={{ fontSize: "14px" }}
+                  >
+                    {transaction.date}
+                  </DateTableCellStyled>
+                  <TableCell component="th" scope="row" align="left">
+                    {transaction.description}
+                    <Typography
+                      sx={{
+                        fontSize: "14px",
+                        color: "text.secondary",
+                        display: { md: "none", lg: "none" },
+                      }}
+                    >
+                      {transaction.date}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="right">{transaction.amount}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
+        <Button
+          href="/"
+          color="black"
+          variant="elevated"
+          sx={{
+            margin: "5vh",
+            color: "grey",
+            backgroundColor: "white",
+            width: "20vh",
+            border: "solid 1px grey",
+          }}
+          type="submit"
+        >
+          Return home
+        </Button>
+      </TableContainer>
     </>
   );
 };

@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
 import AccountDetails from "./components/AccountDetails";
 import Navbar from "./components/Navbar";
 import Transactions from "./components/Transactions";
+import Profile from "./components/Profile";
 function App() {
   return (
     <BrowserRouter>
@@ -16,6 +17,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/account-details" element={<AccountDetails />} />
             <Route path="/transactions" element={<Transactions />} />
+            <Route path="/profile" element={<Profile />} />
           </Route>
         </Route>
         <Route element={<NotProtectedRoute />}>

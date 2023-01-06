@@ -18,7 +18,7 @@ const CardStyled = styled(Card)(({ theme }) => ({
 
 // Format amount as in currency
 function currencyFormat(num) {
-  return "$" + (num || 0).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+  return "$" + (num || 0).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 }
 
 const AccountCard = ({ account }) => {

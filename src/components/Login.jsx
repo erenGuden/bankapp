@@ -6,7 +6,7 @@ import {
   Link,
   Stack,
   TextField,
-  Typography
+  Typography,
 } from "@mui/material";
 import Logo from "../assets/logo.png";
 import React, { useState } from "react";
@@ -35,7 +35,7 @@ const Login = () => {
     e.preventDefault();
 
     axios
-      .post(baseUrl + `/auth`, { username, password })
+      .post(baseUrl + "/auth", { username, password })
       .then((response) => {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("id", response.data.id);
